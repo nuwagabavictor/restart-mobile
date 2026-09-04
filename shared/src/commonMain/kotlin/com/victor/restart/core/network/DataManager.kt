@@ -1,0 +1,9 @@
+package com.victor.restart.core.network
+
+
+
+open class DataManager(
+    private val ktorfitClient: KtorfitClient? = null
+) {
+    open val userApi by lazy { ktorfitClient!!.userApi }
+}

@@ -1,0 +1,41 @@
+<resources>
+    <!-- Register screen -->
+    <string name="feature_sign_in_title">Create your account</string>
+    <string name="feature_sign_in_sub_title">Sign up to get started</string>
+    <string name="feature_sign_in_username_label">Username</string>
+    <string name="feature_sign_in_email_label">Email</string>
+    <string name="feature_sign_in_phone_label">Phone</string>
+    <string name="feature_sign_in_password_label">Password</string>
+    <string name="feature_sign_in_password_title">Change Password</string>
+    <string name="feature_sign_in_confirm_password_label">Confirm Password</string>
+    <string name="feature_sign_in_sign_up">Register</string>
+    <string name="feature_login">Login</string>
+    <string name="feature_sign_in_sign_in">Already have an account? Log in</string>
+    <string name="feature_sign_in_forgot_password">Forgot password?</string>
+    <string name="feature_sign_in_dont_have_an_account">Don\'t have an account?</string>
+
+    <!-- Validation errors -->
+    <string name="feature_sign_in_username_error">Username is required</string>
+    <string name="feature_sign_in_email_error">Enter a valid email address</string>
+    <string name="feature_sign_in_phone_error">Enter a valid phone number</string>
+    <string name="feature_sign_in_password_error">Password must be at least 8 characters and not weak</string>
+
+    <!-- Errors / misc -->
+    <string name="internal_server_error">Something went wrong. Please try again.</string>
+    <string name="no_client_assigned">No client assigned</string>
+
+    <string name="feature_register_powered_by">Powered by Victor</string>
+    <string name="feature_register_error_title">Error</string>
+    <string name="feature_register_ok">OK</string>
+    <string name="feature_register_button">Register</string>
+    <string name="feature_register_app_logo_description">Application Logo</string>
+    <string name="feature_register_error_icon_description">Error</string>
+    <string name="feature_register_show_password_description">Show password</string>
+    <string name="feature_register_hide_password_description">Hide password</string>
+
+    <string name="feature_register_password_weak">Weak password</string>
+    <string name="feature_register_password_medium">Medium strength</string>
+    <string name="feature_register_password_strong">Strong password</string>
+    <string name="feature_confirm">Confirm</string>
+
+</resources>
