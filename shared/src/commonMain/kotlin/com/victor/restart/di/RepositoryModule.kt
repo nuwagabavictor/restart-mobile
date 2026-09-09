@@ -1,5 +1,7 @@
 package com.victor.restart.di
 
+import com.victor.restart.core.repository.CategoryRepository
+import com.victor.restart.core.repository.CategoryRepositoryImpl
 import com.victor.restart.core.repository.UserDataRepository
 import com.victor.restart.core.repository.UserDataRepositoryImpl
 import com.victor.restart.core.repository.UserRepository
@@ -17,6 +19,7 @@ val RepositoryModule = module {
     single< UserRepository> { UserRepositoryImp(get(), get(ioDispatcher)) }
 
     single<UserDataRepository> { UserDataRepositoryImpl(get(), get(ioDispatcher), get(unconfinedDispatcher)) }
+    single<CategoryRepository>{ CategoryRepositoryImpl(get(), get(ioDispatcher)) }
 
 
 }

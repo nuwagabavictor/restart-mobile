@@ -151,16 +151,26 @@ class LoginViewModel(
 
 
 
-    private fun login(email: String, password: String){
+    private fun login(email: String, password: String) {
         loginJob?.cancel()
         updateState { it.copy(showOverlay = true) }
 
         loginJob = viewModelScope.launch {
-            delay(300);
-            val result = userRepository.login(email, password);
-            println("Access Token: ${result.data?.accessToken}")
-            //Log.d("LOGIN", "Access Token: ${result.data?.accessToken}")
-            sendAction(LoginAction.Internal.ReceiveLoginResult(result))
+            try {
+                delay(300)
+
+                println("Starting login...")
+
+                val result = userRepository.login(email, password)
+
+                println("Login result: $result")
+                println("Access Token: ${result.data?.accessToken}")
+
+                sendAction(LoginAction.Internal.ReceiveLoginResult(result))
+            } catch (e: Exception) {
+                println("Login failed: ${e.message}")
+                e.printStackTrace()
+            }
         }
     }
 }
