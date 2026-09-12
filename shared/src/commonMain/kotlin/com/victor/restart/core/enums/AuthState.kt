@@ -8,7 +8,13 @@ sealed class AuthState {
     /**
      * Auth state is unknown.
      */
-    data object Uninitialized : AuthState()
+   // data object Uninitialized : AuthState()
+
+
+    /**
+     * Auth state is unknown.
+     */
+    data object Loading : AuthState()
 
     /**
      * User is unauthenticated. Said another way, the app has no access token.

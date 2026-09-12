@@ -18,13 +18,6 @@ object CategoryMapper {
         )
     }
 
-    fun toDto(name: String, type: String, description: String?): CategoryRequest{
-        return CategoryRequest(
-            name = name,
-            description = description,
-            type = type
-        )
-    }
 
     fun List<CategoryDto>.toDomain(): List<Category>{
         return map { it.toDomain() }

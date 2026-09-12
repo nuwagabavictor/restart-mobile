@@ -4,7 +4,7 @@ import com.victor.restart.core.network.DataManager
 import com.victor.restart.core.network.KtorInterceptor
 import com.victor.restart.core.network.KtorfitClient
 import com.victor.restart.core.network.ktorHttpClient
-import com.victor.restart.core.repository.UserPreferencesRepository
+import com.victor.restart.core.repository.userdata.UserPreferencesRepository
 import com.victor.restart.core.utils.BaseUrl
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.auth.Auth

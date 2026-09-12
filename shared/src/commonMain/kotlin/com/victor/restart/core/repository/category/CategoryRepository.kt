@@ -1,4 +1,4 @@
-package com.victor.restart.core.repository
+package com.victor.restart.core.repository.category
 
 import com.victor.restart.core.data.category.CategoryRequest
 import com.victor.restart.core.data.category.CategoryUpdateRequestDto

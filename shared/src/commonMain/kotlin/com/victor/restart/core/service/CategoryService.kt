@@ -5,6 +5,7 @@ import com.victor.restart.core.data.category.CategoryCreateResponseDto
 import com.victor.restart.core.data.category.CategoryDto
 import com.victor.restart.core.data.category.CategoryListResponseDto
 import com.victor.restart.core.data.category.CategoryRequest
+import com.victor.restart.core.data.category.CategoryResponseDto
 import com.victor.restart.core.data.category.CategoryUpdateRequestDto
 import de.jensklingenberg.ktorfit.http.Body
 import de.jensklingenberg.ktorfit.http.DELETE
@@ -28,5 +29,5 @@ interface CategoryService {
     suspend fun getCategories(): CategoryListResponseDto
 
     @GET(ApiEndPoints.FIND_CATEGORY + "{id}")
-    suspend fun getCategory(@Path("id") id: Long): CategoryDto
+    suspend fun getCategory(@Path("id") id: Long): CategoryResponseDto
 }

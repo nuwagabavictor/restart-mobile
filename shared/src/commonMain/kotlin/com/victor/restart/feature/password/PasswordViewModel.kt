@@ -6,8 +6,8 @@ import restart.shared.generated.resources.Res
 import restart.shared.generated.resources.feature_sign_in_password_error
 import restart.shared.generated.resources.internal_server_error
 import com.victor.restart.core.enums.PasswordStrength
-import com.victor.restart.core.repository.UserPreferencesRepository
-import com.victor.restart.core.repository.UserRepository
+import com.victor.restart.core.repository.userdata.UserPreferencesRepository
+import com.victor.restart.core.repository.user.UserRepository
 import com.victor.restart.core.utils.BaseViewModel
 import com.victor.restart.core.utils.DataState
 import com.victor.restart.core.utils.ScreenUiState

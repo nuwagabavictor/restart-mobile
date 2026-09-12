@@ -1,18 +1,20 @@
-package com.victor.restart.core.data.category
+package com.victor.restart.core.data.transaction
 
 import com.victor.restart.core.utils.LocalDateTimeSerializer
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Serializer
 
 @Serializable
-data class CategoryDto(
+data class TransactionDto(
     val id: Long,
     val categoryName: String,
-    val categoryDescription: String? = null,
+    val categoryId: Long,
     val categoryType: String,
-    val isActive: Boolean,
-
+    val transactionType: String,
+    val amount: Int,
+    val description: String?,
+    @Serializable(LocalDateTimeSerializer::class)
+    val transactionDate: LocalDateTime,
     @Serializable(LocalDateTimeSerializer::class)
     val createdAt: LocalDateTime
 )

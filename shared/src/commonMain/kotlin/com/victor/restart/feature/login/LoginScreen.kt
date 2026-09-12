@@ -29,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -56,6 +57,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import restart.shared.generated.resources.feature_login
+import restart.shared.generated.resources.feature_register_app_logo_description
 import restart.shared.generated.resources.feature_register_powered_by
 import restart.shared.generated.resources.feature_sign_in_email_label
 
@@ -63,10 +65,10 @@ import restart.shared.generated.resources.feature_sign_in_email_label
 @Composable
 internal fun LoginScreen(
     navigateToRegisterScreen: () -> Unit,
+    navigateToCategoryScreen: () -> Unit,
     navigateToForgotPasswordScreen: () -> Unit,
-    navigateToPasscodeScreen: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: LoginViewModel = koinViewModel(),
+    viewModel: LoginViewModel = koinViewModel()
 ) {
     val scope = rememberCoroutineScope()
     val snackBarHostState = remember { SnackbarHostState() }
@@ -74,16 +76,19 @@ internal fun LoginScreen(
     val state by viewModel.stateFlow.collectAsStateWithLifecycle()
 
     EventsEffect(viewModel.eventFlow) { event ->
+
         when (event) {
+
             LoginEvent.NavigateToSignup -> navigateToRegisterScreen()
-            LoginEvent.NavigateToPasscode -> navigateToPasscodeScreen()
+
+            LoginEvent.NavigateToCategories -> navigateToCategoryScreen()
+
             LoginEvent.NavigateToForgotPassword -> navigateToForgotPasswordScreen()
 
-            is LoginEvent.ShowToast -> {
+            is LoginEvent.ShowToast ->
                 scope.launch {
                     snackBarHostState.showSnackbar(event.message)
                 }
-            }
         }
     }
 
@@ -179,72 +184,84 @@ private fun LoginDialogs(
 @Composable
 private fun LoginScreenContent(
     state: LoginState,
-    modifier: Modifier = Modifier,
     onAction: (LoginAction) -> Unit,
+    modifier: Modifier = Modifier
 ) {
+
     val keyboardController = LocalSoftwareKeyboardController.current
 
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(top = 100.dp, start = 16.dp, end = 16.dp)
             .pointerInput(Unit) {
                 detectTapGestures {
                     keyboardController?.hide()
                 }
             }
             .verticalScroll(rememberScrollState())
+            .padding(horizontal = 24.dp)
     ) {
-        LogoBox()
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(Modifier.height(48.dp))
 
-        InputBox(
+        LoginHeader()
+
+        Spacer(Modifier.height(36.dp))
+
+        LoginForm(
             state = state,
             onAction = onAction
         )
+
+        Spacer(Modifier.height(32.dp))
     }
 }
 
 @Composable
-private fun LogoBox(
-    modifier: Modifier = Modifier,
-) {
+private fun LoginHeader() {
+
     Column(
-        modifier = modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+    ) {
 
         Image(
-            modifier = Modifier
-                .height(48.dp)
-                .width(165.dp),
-
             painter = painterResource(Res.drawable.ic_logo),
-            contentDescription = "Application Logo"
+            contentDescription = stringResource(
+                Res.string.feature_register_app_logo_description
+            ),
+            modifier = Modifier
+                .height(52.dp)
+                .width(170.dp)
         )
 
-        Spacer(modifier = Modifier.height(50.dp))
+        Spacer(Modifier.height(28.dp))
 
         Text(
             text = stringResource(Res.string.feature_login),
+            style = MaterialTheme.typography.headlineMedium,
+            fontWeight = FontWeight.Bold
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(Modifier.height(8.dp))
 
+        Text(
+            text = stringResource(Res.string.feature_sign_in_sub_title),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun InputBox(
+private fun LoginForm(
     state: LoginState,
-    onAction: (LoginAction) -> Unit,
-    modifier: Modifier = Modifier,
+    onAction: (LoginAction) -> Unit
 ) {
+
     Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(20.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
 
         OutlinedTextField(
@@ -256,20 +273,12 @@ private fun InputBox(
             label = {
                 Text(stringResource(Res.string.feature_sign_in_email_label))
             },
-            isError = state.isError,
+            singleLine = true,
+            shape = RoundedCornerShape(12.dp),
+            isError = state.emailError != null,
             supportingText = {
-                if (state.isError) {
-                    state.emailError?.let {
-                        Text(stringResource(it))
-                    }
-                }
-            },
-            trailingIcon = {
-                if (state.isError) {
-                    Icon(
-                        painter = painterResource(Res.drawable.ic_error),
-                        contentDescription = "Error"
-                    )
+                state.emailError?.let {
+                    Text(stringResource(it))
                 }
             }
         )
@@ -283,21 +292,20 @@ private fun InputBox(
             label = {
                 Text(stringResource(Res.string.feature_sign_in_password_label))
             },
-            isError = state.isError,
+            singleLine = true,
+            shape = RoundedCornerShape(12.dp),
+            isError = state.passwordError != null,
             supportingText = {
-                if (state.isError) {
-                    state.passwordError?.let {
-                        Text(stringResource(it))
-                    }
+                state.passwordError?.let {
+                    Text(stringResource(it))
                 }
             },
             visualTransformation =
                 if (state.isPasswordVisible)
                     VisualTransformation.None
-                else
-                    PasswordVisualTransformation(),
-
+                else PasswordVisualTransformation(),
             trailingIcon = {
+
                 IconButton(
                     onClick = {
                         onAction(LoginAction.TogglePasswordVisibility)
@@ -306,24 +314,21 @@ private fun InputBox(
                     Icon(
                         painter = painterResource(
                             if (state.isPasswordVisible)
-                                Res.drawable.ic_visibility_off
-                            else
                                 Res.drawable.ic_visibility
-                        ),
-                        contentDescription =
-                            if (state.isPasswordVisible)
-                                "Hide password"
                             else
-                                "Show password"
+                                Res.drawable.ic_visibility_off
+                        ),
+                        contentDescription = null
                     )
                 }
             }
         )
 
-        TextButton(onClick = {
-            onAction(LoginAction.NavigateToForgotPassword)},
-            modifier = Modifier
-                .align(Alignment.End)
+        TextButton(
+            modifier = Modifier.align(Alignment.End),
+            onClick = {
+                onAction(LoginAction.NavigateToForgotPassword)
+            }
         ) {
             Text(stringResource(Res.string.feature_sign_in_forgot_password))
         }
@@ -331,13 +336,25 @@ private fun InputBox(
         Button(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp),
-            enabled = state.isLoginButtonEnabled,
+                .height(52.dp),
+            enabled = state.isLoginButtonEnabled && !state.showOverlay,
+            shape = RoundedCornerShape(12.dp),
             onClick = {
                 onAction(LoginAction.LoginClicked)
             }
         ) {
-            Text(stringResource(Res.string.feature_login))
+
+            if (state.showOverlay) {
+
+                CircularProgressIndicator(
+                    modifier = Modifier.size(20.dp),
+                    strokeWidth = 2.dp
+                )
+
+            } else {
+
+                Text(stringResource(Res.string.feature_login))
+            }
         }
 
         Row(
@@ -345,12 +362,14 @@ private fun InputBox(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
+
             Text(stringResource(Res.string.feature_sign_in_dont_have_an_account))
 
-            Spacer(modifier = Modifier.width(8.dp))
-
             TextButton(
-                onClick = { onAction(LoginAction.SignupClicked) }) {
+                onClick = {
+                    onAction(LoginAction.SignupClicked)
+                }
+            ) {
                 Text(stringResource(Res.string.feature_sign_in_sign_up))
             }
         }
@@ -359,13 +378,31 @@ private fun InputBox(
 
 @Composable
 private fun LoadingOverlay() {
-    Surface(modifier = Modifier.fillMaxSize()) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                MaterialTheme.colorScheme.scrim.copy(alpha = 0.35f)
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+
+        Surface(
+            shape = RoundedCornerShape(20.dp),
+            tonalElevation = 8.dp
         ) {
-            CircularProgressIndicator()
+
+            Column(
+                modifier = Modifier.padding(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+
+                CircularProgressIndicator()
+
+                Text("Signing you in...")
+            }
         }
     }
 }

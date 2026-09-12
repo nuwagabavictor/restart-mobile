@@ -1,6 +1,7 @@
 package com.victor.restart.core.network
 
 import com.victor.restart.core.service.createCategoryService
+import com.victor.restart.core.service.createTransactionService
 import com.victor.restart.core.service.createUserService
 import de.jensklingenberg.ktorfit.Ktorfit
 import io.ktor.client.HttpClient
@@ -20,6 +21,9 @@ class KtorfitClient(
     internal val userApi by lazy { ktorfit.createUserService() }
 
     internal val categoryApi by lazy { ktorfit.createCategoryService() }
+
+    internal val transactionApi by lazy { ktorfit.createTransactionService() }
+
 
     class Builder internal constructor() {
         private lateinit var baseURL: String

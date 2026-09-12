@@ -15,5 +15,16 @@ object ApiEndPoints {
 
     const val DELETE_CATEGORY = "categories/"
 
+    const val CREATE_TRANSACTION = "transactions/create"
+
+    const val UPDATE_TRANSACTION = "transactions/"
+
+    const val FIND_TRANSACTION = "transactions/"
+
+    const val FIND_TRANSACTIONS = "transactions/"
+
+
+
+
 
 }

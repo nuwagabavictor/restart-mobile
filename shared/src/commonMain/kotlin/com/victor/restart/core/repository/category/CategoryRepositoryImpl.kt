@@ -1,4 +1,4 @@
-package com.victor.restart.core.repository
+package com.victor.restart.core.repository.category
 
 import com.victor.restart.core.data.category.CategoryRequest
 import com.victor.restart.core.data.category.CategoryUpdateRequestDto
@@ -16,12 +16,12 @@ class CategoryRepositoryImpl(
 ): CategoryRepository {
 
     override suspend fun createCategory(request: CategoryRequest): DataState<String> {
-        return withContext(ioDispatcher){
+        return withContext(ioDispatcher) {
             try {
                 val response = dataManager.categoryApi.createCategory(request);
                 Logger.d("CategoryRepository", "Response: $response")
-                DataState.Success( response.message)
-            }catch (e: Exception){
+                DataState.Success(response.message)
+            } catch (e: Exception) {
                 Logger.e("CategoryRepository", "Create category failed", e)
                 DataState.Error(e)
             }
@@ -32,44 +32,49 @@ class CategoryRepositoryImpl(
         id: Long,
         requestDto: CategoryUpdateRequestDto
     ): DataState<String> {
-        return withContext(ioDispatcher){
+        return withContext(ioDispatcher) {
             try {
-                val response = dataManager.categoryApi.updateCategory(id,requestDto);
-                DataState.Success( response.message)
-            }catch (e: Exception){
+                val response = dataManager.categoryApi.updateCategory(id, requestDto);
+                DataState.Success(response.message)
+            } catch (e: Exception) {
                 DataState.Error(e)
             }
         }
     }
 
     override suspend fun findCategories(): DataState<List<Category>> {
-        return withContext(ioDispatcher){
+        return withContext(ioDispatcher) {
             try {
                 val response = dataManager.categoryApi.getCategories();
-                DataState.Success( response.data.toDomain())
-            }catch (e: Exception){
+                val categories = response.categories.toDomain()
+
+                println("CATEGORY REPOSITORY: domain = $categories")
+                println("CATEGORY REPOSITORY: count = ${categories.size}")
+                DataState.Success(categories)
+            } catch (e: Exception) {
                 DataState.Error(e)
             }
         }
     }
 
     override suspend fun deleteCategory(id: Long): DataState<Unit> {
-        return withContext(ioDispatcher){
+        return withContext(ioDispatcher) {
             try {
                 val response = dataManager.categoryApi.deleteCategory(id);
-                DataState.Success( response)
-            }catch (e: Exception){
+                DataState.Success(response)
+            } catch (e: Exception) {
                 DataState.Error(e)
             }
         }
     }
 
     override suspend fun getCategory(id: Long): DataState<Category> {
-        return withContext(ioDispatcher){
+        return withContext(ioDispatcher) {
             try {
                 val response = dataManager.categoryApi.getCategory(id);
-                DataState.Success( response.toDomain())
-            }catch (e: Exception){
+                Logger.d("Category", "Response: $response")
+                DataState.Success(response.category.toDomain())
+            } catch (e: Exception) {
                 DataState.Error(e)
             }
         }

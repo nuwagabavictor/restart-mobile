@@ -1,4 +1,4 @@
-package com.victor.restart.core.repository
+package com.victor.restart.core.repository.userdata
 
 import com.victor.restart.core.enums.AuthState
 import com.victor.restart.core.utils.DataState
@@ -9,13 +9,13 @@ import com.victor.restart.di.RestartDispatchers
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.withContext
 
 class UserDataRepositoryImpl  (
@@ -54,20 +54,18 @@ class UserDataRepositoryImpl  (
     }
 
     override val authState: StateFlow<AuthState>
-    get() = preferencesHelper.userInfo.zip(preferencesHelper.settingsInfo) { account, settings ->
-        when {
-            account.isAuthenticated && settings.isAuthenticated &&
-                    account.accessToken != null ->
-                account.accessToken
+        get() = preferencesHelper.userInfo
+            .map { user ->
 
-            else -> null
-        }
-    }.map {
-        if (it != null) AuthState.Authenticated(it) else AuthState.Unauthenticated
-    }.stateIn(
+                if (user.isAuthenticated && !user.accessToken.isNullOrBlank()) {
+                    AuthState.Authenticated(user.accessToken)
+                } else {
+                    AuthState.Unauthenticated
+                }
+            }.stateIn(
         scope = unconfinedScope,
-        started = kotlinx.coroutines.flow.SharingStarted.Eagerly,
-        initialValue = AuthState.Unauthenticated,
+        started = SharingStarted.Eagerly,
+        initialValue = AuthState.Loading,
     )
 
     override val settingsState: StateFlow<AppSettings>

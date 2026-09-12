@@ -1,4 +1,4 @@
-package com.victor.restart.core.repository
+package com.victor.restart.core.repository.userdata
 
 import com.victor.restart.core.enums.LanguageConfig
 import com.victor.restart.core.enums.ThemeConfig

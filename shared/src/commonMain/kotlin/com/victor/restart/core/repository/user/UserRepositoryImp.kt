@@ -1,4 +1,4 @@
-package com.victor.restart.core.repository
+package com.victor.restart.core.repository.user
 
 import com.victor.restart.core.entity.RegisterPayload
 import com.victor.restart.core.entity.User
@@ -7,6 +7,7 @@ import com.victor.restart.core.mapper.RegisterMapper
 import com.victor.restart.core.mapper.UserMapper
 import com.victor.restart.core.network.DataManager
 import com.victor.restart.core.utils.DataState
+import com.victor.restart.core.utils.Logger
 import io.ktor.client.statement.bodyAsText
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -21,6 +22,7 @@ class UserRepositoryImp(
             try {
                 val requestDto = RegisterMapper.toMap(payload);
                 val response = dataManager.userApi.createUser(requestDto);
+                Logger.d("User Response", "Response: $response")
                 DataState.Success(response.bodyAsText())
 
             } catch (e: Exception) {
@@ -37,10 +39,11 @@ class UserRepositoryImp(
             try {
                 val payload = UserMapper.toDto(email, password);
                 val response = dataManager.userApi.login(payload);
+                Logger.d("Login Response: ", "Response: $response")
                 val user = UserMapper.toDomain(response);
                 DataState.Success(user);
             } catch (e: Exception) {
-                DataState.Error( e)
+                DataState.Error(e)
             }
         }
     }
@@ -53,7 +56,7 @@ class UserRepositoryImp(
         return withContext(ioDispatcher) {
             try {
                 val payload = PasswordMapper.toDto(password, confirmPassword);
-                val response = dataManager.userApi.changePassword(userId,payload)
+                val response = dataManager.userApi.changePassword(userId, payload)
                 DataState.Success(response.bodyAsText())
             } catch (e: Exception) {
                 DataState.Error(e)

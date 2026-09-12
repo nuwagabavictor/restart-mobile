@@ -1,11 +1,14 @@
 package com.victor.restart.di
 
-import com.victor.restart.core.repository.CategoryRepository
-import com.victor.restart.core.repository.CategoryRepositoryImpl
-import com.victor.restart.core.repository.UserDataRepository
-import com.victor.restart.core.repository.UserDataRepositoryImpl
-import com.victor.restart.core.repository.UserRepository
-import com.victor.restart.core.repository.UserRepositoryImp
+import com.victor.restart.core.repository.category.CategoryRepository
+import com.victor.restart.core.repository.category.CategoryRepositoryImpl
+import com.victor.restart.core.repository.transaction.TransactionRepository
+import com.victor.restart.core.repository.transaction.TransactionRepositoryImpl
+import com.victor.restart.core.repository.userdata.UserDataRepository
+import com.victor.restart.core.repository.userdata.UserDataRepositoryImpl
+import com.victor.restart.core.repository.user.UserRepository
+import com.victor.restart.core.repository.user.UserRepositoryImp
+import com.victor.restart.core.utils.NetworkMonitor
 import kotlinx.serialization.json.Json
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -20,6 +23,11 @@ val RepositoryModule = module {
 
     single<UserDataRepository> { UserDataRepositoryImpl(get(), get(ioDispatcher), get(unconfinedDispatcher)) }
     single<CategoryRepository>{ CategoryRepositoryImpl(get(), get(ioDispatcher)) }
+    single<TransactionRepository>{ TransactionRepositoryImpl(get(), get(ioDispatcher)) }
+    single<PlatformDependentDataModule> { getPlatformDataModule }
+    single<NetworkMonitor> { getPlatformDataModule.networkMonitor }
+    includes(platformModule)
+
 
 
 }

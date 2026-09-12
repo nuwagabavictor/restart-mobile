@@ -1,13 +1,12 @@
 package com.victor.restart.core.utils
 
-object Logger {
+expect object Logger {
 
-    fun d(tag: String, message: String) {
-        println("DEBUG [$tag] $message")
-    }
+    fun d(tag: String, message: String)
 
-    fun e(tag: String, message: String, throwable: Throwable? = null) {
-        println("ERROR [$tag] $message")
-        throwable?.printStackTrace()
-    }
+    fun e(
+        tag: String,
+        message: String,
+        throwable: Throwable? = null
+    )
 }

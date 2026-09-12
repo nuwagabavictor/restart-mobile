@@ -1,11 +1,9 @@
 package com.victor.restart.di
 
 import com.russhwolf.settings.Settings
-import com.victor.restart.core.repository.CategoryRepository
-import com.victor.restart.core.repository.CategoryRepositoryImpl
-import com.victor.restart.core.repository.UserPreferencesDataSource
-import com.victor.restart.core.repository.UserPreferencesRepository
-import com.victor.restart.core.repository.UserPreferencesRepositoryImpl
+import com.victor.restart.core.repository.userdata.UserPreferencesDataSource
+import com.victor.restart.core.repository.userdata.UserPreferencesRepository
+import com.victor.restart.core.repository.userdata.UserPreferencesRepositoryImpl
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
