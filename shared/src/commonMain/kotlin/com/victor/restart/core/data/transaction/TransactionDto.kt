@@ -1,6 +1,7 @@
 package com.victor.restart.core.data.transaction
 
 import com.victor.restart.core.utils.LocalDateTimeSerializer
+import com.victor.restart.core.utils.QuotedDoubleSerializer
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
 
@@ -11,7 +12,8 @@ data class TransactionDto(
     val categoryId: Long,
     val categoryType: String,
     val transactionType: String,
-    val amount: Int,
+    @Serializable(with = QuotedDoubleSerializer::class)
+    val amount: Double,
     val description: String?,
     @Serializable(LocalDateTimeSerializer::class)
     val transactionDate: LocalDateTime,

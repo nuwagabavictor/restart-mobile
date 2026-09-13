@@ -8,7 +8,7 @@ data class Transaction(
     val categoryId: Long,
     val categoryType: String,
     val transactionType: String,
-    val amount: Int,
+    val amount: Double,
     val description: String?,
     val transactionDate: LocalDateTime,
     val createdAt: LocalDateTime

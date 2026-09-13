@@ -199,7 +199,7 @@ data class LoginState(
 
 sealed interface LoginEvent {
     data object NavigateToSignup : LoginEvent
-    data object NavigateToCategories : LoginEvent
+    data object NavigateToHome : LoginEvent
     data object NavigateToForgotPassword : LoginEvent
     data class ShowToast(val message: String) : LoginEvent
 }

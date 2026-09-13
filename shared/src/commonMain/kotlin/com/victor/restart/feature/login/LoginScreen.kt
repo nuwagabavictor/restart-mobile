@@ -65,7 +65,7 @@ import restart.shared.generated.resources.feature_sign_in_email_label
 @Composable
 internal fun LoginScreen(
     navigateToRegisterScreen: () -> Unit,
-    navigateToCategoryScreen: () -> Unit,
+    navigateToHomeScreen: () -> Unit,
     navigateToForgotPasswordScreen: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: LoginViewModel = koinViewModel()
@@ -81,7 +81,7 @@ internal fun LoginScreen(
 
             LoginEvent.NavigateToSignup -> navigateToRegisterScreen()
 
-            LoginEvent.NavigateToCategories -> navigateToCategoryScreen()
+            LoginEvent.NavigateToHome -> navigateToHomeScreen()
 
             LoginEvent.NavigateToForgotPassword -> navigateToForgotPasswordScreen()
 

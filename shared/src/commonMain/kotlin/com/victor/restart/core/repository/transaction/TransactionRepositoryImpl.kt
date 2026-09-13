@@ -19,7 +19,7 @@ class TransactionRepositoryImpl (
         return withContext(ioDispatcher){
             try {
                 val response = dataManager.transactionApi.createTransaction(request)
-                Logger.e("TransCreation", "Response $response")
+                Logger.d("TransCreation", "Response $response")
                 DataState.Success(response)
             }catch (e: Exception){
                 DataState.Error(e)
@@ -34,7 +34,7 @@ class TransactionRepositoryImpl (
         return withContext(ioDispatcher){
             try {
                 val response = dataManager.transactionApi.updateTransaction(id,request)
-                Logger.e("TransUpdate", "Response $response")
+                Logger.d("TransUpdate", "Response $response")
                 DataState.Success(response)
             }catch (e: Exception){
                 DataState.Error(e)
@@ -47,7 +47,7 @@ class TransactionRepositoryImpl (
             try {
                 val response = dataManager.transactionApi.findTransactions()
                 val transactions = response.transactions.toDomain()
-                Logger.e("TransCreation", "Response $transactions")
+                Logger.d("TransCreation", "Response $transactions")
                 DataState.Success(transactions)
             }catch (e: Exception){
                 DataState.Error(e)
@@ -60,7 +60,7 @@ class TransactionRepositoryImpl (
             try {
                 val response = dataManager.transactionApi.findTransaction(id)
                 val transaction = response.transaction.toDomain()
-                Logger.e("TransCreation", "Response $transaction")
+                Logger.d("TransCreation", "Response $transaction")
                 DataState.Success(transaction)
             }catch (e: Exception){
                 DataState.Error(e)

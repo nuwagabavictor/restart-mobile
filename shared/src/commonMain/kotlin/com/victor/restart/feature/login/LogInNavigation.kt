@@ -16,7 +16,7 @@ fun NavController.navigateToLoginScreen() {
 
 fun NavGraphBuilder.loginDestination(
     navigateToRegisterScreen: () -> Unit,
-    navigateToCategoryScreen: () -> Unit,
+    navigateToHomeScreen: () -> Unit,
     navigateToForgotPasswordScreen: () -> Unit
 ) {
 
@@ -24,7 +24,7 @@ fun NavGraphBuilder.loginDestination(
 
         LoginScreen(
             navigateToRegisterScreen = navigateToRegisterScreen,
-            navigateToCategoryScreen = navigateToCategoryScreen,
+            navigateToHomeScreen = navigateToHomeScreen,
             navigateToForgotPasswordScreen = navigateToForgotPasswordScreen
         )
     }

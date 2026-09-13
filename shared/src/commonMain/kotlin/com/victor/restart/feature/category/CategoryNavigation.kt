@@ -1,8 +1,10 @@
 package com.victor.restart.feature.category
 
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.victor.restart.feature.transaction.TransactionRoute
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -18,6 +20,14 @@ data class CategoryFormRoute(
 
 fun NavController.navigateToCategoryForm(categoryId: Long? = null) {
     navigate(CategoryFormRoute(categoryId))
+}
+
+fun NavController.navigateToCategories() {
+    navigate(CategoryRoute){
+        popUpTo(graph.findStartDestination().id) { saveState = true }
+        launchSingleTop = true
+        restoreState = true
+    }
 }
 
 fun NavGraphBuilder.categoryDestination(

@@ -48,8 +48,7 @@ class CategoryRepositoryImpl(
                 val response = dataManager.categoryApi.getCategories();
                 val categories = response.categories.toDomain()
 
-                println("CATEGORY REPOSITORY: domain = $categories")
-                println("CATEGORY REPOSITORY: count = ${categories.size}")
+                Logger.d("Category data", "Result $categories")
                 DataState.Success(categories)
             } catch (e: Exception) {
                 DataState.Error(e)
