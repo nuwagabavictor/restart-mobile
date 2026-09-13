@@ -5,21 +5,6 @@ import com.victor.restart.core.data.login.LoginRequestDto
 import com.victor.restart.core.data.login.LoginResponseDto
 
 object UserMapper {
-//    fun LoginResponseDto.toModel(): User =
-//        User(
-//            id = id,
-//            username = username,
-//            email = email,
-//            role = role
-//        )
-//
-//    fun User.toDto(): LoginResponseDto =
-//        LoginResponseDto(
-//            id = id,
-//            username = username,
-//            email = email,
-//            role = role
-//        )
 
     fun toDomain(dto: LoginResponseDto): User{
         return User(

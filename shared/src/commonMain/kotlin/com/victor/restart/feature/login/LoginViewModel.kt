@@ -2,33 +2,29 @@ package com.victor.restart.feature.login
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import restart.shared.generated.resources.Res
-import restart.shared.generated.resources.feature_sign_in_password_error
-import restart.shared.generated.resources.internal_server_error
-import restart.shared.generated.resources.no_client_assigned
 import com.victor.restart.core.entity.User
-import com.victor.restart.core.repository.UserPreferencesRepository
-import com.victor.restart.core.repository.UserRepository
+import com.victor.restart.core.repository.userdata.UserPreferencesRepository
+import com.victor.restart.core.repository.user.UserRepository
 import com.victor.restart.core.utils.BaseViewModel
 import com.victor.restart.core.utils.DataState
 import com.victor.restart.core.utils.ScreenUiState
 import com.victor.restart.core.utils.UserData
-import io.ktor.client.plugins.ServerResponseException
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.StringResource
-import org.jetbrains.compose.resources.getString
+import restart.shared.generated.resources.Res
 import restart.shared.generated.resources.feature_sign_in_email_error
+import restart.shared.generated.resources.feature_sign_in_password_error
 
 class LoginViewModel(
     private val userRepository: UserRepository,
     private val preferencesRepository: UserPreferencesRepository,
     savedStateHandle: SavedStateHandle
 ) : BaseViewModel<LoginState, LoginEvent, LoginAction>(
-    initialState = LoginState(uiState= ScreenUiState.Success)
-){
+    initialState = LoginState(uiState = ScreenUiState.Success)
+) {
+
     private var loginJob: Job? = null
 
     init {
@@ -36,102 +32,89 @@ class LoginViewModel(
             trySendAction(LoginAction.EmailChanged(it))
         }
     }
-    private fun updateState(update: (LoginState) -> LoginState){
-        mutableStateFlow.update(update)
+
+    private fun updateState(block: (LoginState) -> LoginState) {
+        mutableStateFlow.update(block)
     }
 
     override fun handleAction(action: LoginAction) {
-        when (action){
-            is LoginAction.EmailChanged -> {
+
+        when (action) {
+
+            is LoginAction.EmailChanged ->
                 updateState {
                     it.copy(
-                        isError = false,
                         email = action.email,
-                        emailError = null
+                        emailError = null,
+                        isError = false
                     )
                 }
-            }
-            is LoginAction.PasswordChanged -> {
+
+            is LoginAction.PasswordChanged ->
                 updateState {
                     it.copy(
-                        isError = false,
                         password = action.password,
-                        passwordError = null
+                        passwordError = null,
+                        isError = false
                     )
                 }
-            }
-            is LoginAction.TogglePasswordVisibility -> {
+
+            LoginAction.TogglePasswordVisibility ->
                 updateState {
-                    it.copy(isPasswordVisible = !it.isPasswordVisible)
+                    it.copy(
+                        isPasswordVisible = !it.isPasswordVisible
+                    )
                 }
-            }
-            is LoginAction.LoginClicked -> login(state.email, state.password)
-            is LoginAction.SignupClicked -> sendEvent(LoginEvent.NavigateToSignup)
-            is LoginAction.NavigateToForgotPassword -> sendEvent(LoginEvent.NavigateToForgotPassword)
-            is LoginAction.Internal.ReceiveLoginResult -> handleLoginResult(action)
-            is LoginAction.ErrorDialogDismiss -> {
+
+            LoginAction.LoginClicked -> login()
+
+            LoginAction.SignupClicked -> sendEvent(LoginEvent.NavigateToSignup)
+
+            LoginAction.NavigateToForgotPassword -> sendEvent(LoginEvent.NavigateToForgotPassword)
+
+            LoginAction.ErrorDialogDismiss ->
                 updateState {
                     it.copy(dialogState = null)
                 }
-            }
+
+            is LoginAction.Internal.ReceiveLoginResult -> handleLoginResult(action.loginResult)
         }
     }
 
+    //Login
+    private fun login() {
 
-    private fun handleLoginResult(action: LoginAction.Internal.ReceiveLoginResult) {
+        if (!validate()) return
+
+        loginJob?.cancel()
+
+        updateState {
+            it.copy(showOverlay = true)
+        }
+
+        loginJob = viewModelScope.launch {
+
+            val result = userRepository.login(state.email.trim(), state.password)
+
+            sendAction(LoginAction.Internal.ReceiveLoginResult(result))
+        }
+    }
+
+    private fun handleLoginResult(result: DataState<User>) {
         viewModelScope.launch {
-            when (action.loginResult) {
-                is DataState.Error -> {
-                    val errorMsg =
-                        if (action.loginResult.exception.cause is ServerResponseException) {
-                            getString(
-                                Res.string.internal_server_error,
-                            )
-                        } else {
-                            action.loginResult.message
-                        }
+            when (result) {
 
+                is DataState.Loading ->
                     updateState {
-                        it.copy(
-                            isError = true,
-                            uiState = ScreenUiState.Success,
-                            showOverlay = false,
-                            dialogState = LoginState.DialogState.Error(errorMsg),
-                            emailError = Res.string.feature_sign_in_email_error,
-                            passwordError = Res.string.feature_sign_in_password_error,
-                        )
+                        it.copy(showOverlay = true)
                     }
-                }
-
-                is DataState.Loading -> {
-                    updateState { it.copy(showOverlay = true) }
-                }
 
                 is DataState.Success -> {
-                    updateState { it.copy(showOverlay = false) }
-                    val user = action.loginResult.data
-                    if (user.email.isEmpty()) {
-                        val noClientsMsg = getString(Res.string.no_client_assigned)
-                        viewModelScope.launch {
-                           preferencesRepository.updateUser(
-                               UserData(
-                                   id = user.id,
-                                   email = user.email,
-                                   username = user.username ?: "",
-                                   role = user.role,
-                                   accessToken = user.accessToken,
-                                   isAuthenticated = true
-                               )
-                           )
-                        }
-                        updateState {
-                            it.copy(
-                                isError = true,
-                                dialogState = LoginState.DialogState.Error(noClientsMsg),
-                            )
-                        }
-                    } else {
-                        val userData = UserData(
+
+                    val user = result.data
+
+                    preferencesRepository.updateUser(
+                        UserData(
                             id = user.id,
                             username = user.username.orEmpty(),
                             email = user.email,
@@ -139,32 +122,61 @@ class LoginViewModel(
                             accessToken = user.accessToken,
                             isAuthenticated = true
                         )
-                        viewModelScope.launch {
-                            preferencesRepository.updateUser(userData)
-                        }
-                        sendEvent(LoginEvent.NavigateToPasscode)
+                    )
+
+                    updateState {
+                        it.copy(
+                            showOverlay = false,
+                            isError = false
+                        )
+                    }
+
+                    sendEvent(LoginEvent.ShowToast("Welcome ${user.username.orEmpty()}"))
+
+                    //sendEvent(LoginEvent.NavigateToCategories)
+                }
+
+                is DataState.Error -> {
+
+                    updateState {
+                        it.copy(
+                            showOverlay = false,
+                            isError = true,
+                            emailError = Res.string.feature_sign_in_email_error,
+                            passwordError = Res.string.feature_sign_in_password_error,
+                            dialogState = LoginState.DialogState.Error(result.message)
+                        )
                     }
                 }
             }
         }
     }
 
+    private fun validate(): Boolean {
 
+        val emailError: StringResource? =
+            if (state.email.isBlank()) {
+                Res.string.feature_sign_in_email_error
+            } else null
 
-    private fun login(email: String, password: String){
-        loginJob?.cancel()
-        updateState { it.copy(showOverlay = true) }
+        val passwordError: StringResource? =
+            if (state.password.length < 8) {
+                Res.string.feature_sign_in_password_error
+            } else null
 
-        loginJob = viewModelScope.launch {
-            delay(300);
-            val result = userRepository.login(email, password);
-            println("Access Token: ${result.data?.accessToken}")
-            //Log.d("LOGIN", "Access Token: ${result.data?.accessToken}")
-            sendAction(LoginAction.Internal.ReceiveLoginResult(result))
+        val hasError = emailError != null || passwordError != null
+
+        updateState {
+            it.copy(
+                isError = hasError,
+                emailError = emailError,
+                passwordError = passwordError
+            )
         }
+
+        return !hasError
     }
 }
-
 
 data class LoginState(
     val email: String ="",
@@ -187,7 +199,7 @@ data class LoginState(
 
 sealed interface LoginEvent {
     data object NavigateToSignup : LoginEvent
-    data object NavigateToPasscode : LoginEvent
+    data object NavigateToHome : LoginEvent
     data object NavigateToForgotPassword : LoginEvent
     data class ShowToast(val message: String) : LoginEvent
 }
@@ -203,8 +215,6 @@ sealed interface LoginAction {
     data object NavigateToForgotPassword : LoginAction
 
     sealed class Internal : LoginAction {
-        data class ReceiveLoginResult(
-            val loginResult: DataState<User>,
-        ) : Internal()
+        data class ReceiveLoginResult(val loginResult: DataState<User>) : Internal()
     }
 }

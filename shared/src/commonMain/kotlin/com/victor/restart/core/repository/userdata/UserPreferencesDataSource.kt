@@ -2,7 +2,7 @@
 
 @file:OptIn(ExperimentalSerializationApi::class, ExperimentalSettingsApi::class)
 
-package com.victor.restart.core.repository
+package com.victor.restart.core.repository.userdata
 
 
 
@@ -96,12 +96,11 @@ class UserPreferencesDataSource(
     }
 
     suspend fun updateToken(token: String?) {
-        val authenticationToken = "Bearer " + "$token";
         withContext(dispatcher) {
             val updatedClient = userInfo.value.copy(
                 username = _userInfo.value.username,
                 isAuthenticated = _userInfo.value.isAuthenticated,
-                accessToken = authenticationToken,
+                accessToken = token,
             )
             settings.putUserPreference(updatedClient)
             _userInfo.value = updatedClient

@@ -38,7 +38,6 @@ kotlin {
             implementation(libs.compose.uiTooling)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.koin.android)
-            implementation(libs.androidx.compose.material.iconsExtended)
             implementation(libs.androidx.navigation.compose)
             implementation(libs.androidx.lifecycle.extensions)
             implementation(libs.androidx.core.splashscreen)
@@ -79,6 +78,7 @@ kotlin {
             implementation(libs.multiplatform.settings.coroutines)
             implementation(libs.multiplatform.settings.serialization)
             implementation(libs.multiplatform.settings.test)
+            implementation(compose.materialIconsExtended)
 
 
         }

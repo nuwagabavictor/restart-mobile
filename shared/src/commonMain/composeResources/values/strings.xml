@@ -38,4 +38,83 @@
     <string name="feature_register_password_strong">Strong password</string>
     <string name="feature_confirm">Confirm</string>
 
+    <string name="feature_category_title">Categories</string>
+    <string name="feature_category_count">%1$d categories</string>
+    <string name="feature_category_search">Search categories</string>
+    <string name="feature_search">Search </string>
+    <string name="feature_category_add">Add category</string>
+    <string name="feature_category_edit">Edit</string>
+    <string name="feature_category_delete">Delete</string>
+    <string name="feature_category_active">Active</string>
+    <string name="feature_category_inactive">Inactive</string>
+    <string name="feature_category_no_categories">No categories yet</string>
+    <string name="feature_category_no_results">No categories found</string>
+    <string name="feature_category_search_hint">Try a different search term.</string>
+    <string name="feature_category_create_hint">Create your first category to get started.</string>
+    <string name="feature_category_delete_title">Delete category?</string>
+    <string name="feature_category_delete_confirm">Delete</string>
+    <string name="feature_category_delete_cancel">Cancel</string>
+    <string name="feature_category_deleted_successfully">Category deleted successfully</string>
+    <string name="feature_category_error_title">Something went wrong</string>
+    <string name="feature_category_error_ok">OK</string>
+    <string name="feature_category_name">Category Name</string>
+    <string name="feature_category_type">Category Type</string>
+    <string name="feature_category_description">Category Description</string>
+    <string name="feature_category_create">Create category</string>
+    <string name="feature_category_edit_cat">Edit category</string>
+
+    <string name="feature_transaction_create_title">New Transaction</string>
+    <string name="feature_transaction_edit_title">Edit Transaction</string>
+
+    <string name="feature_transaction_category">Category</string>
+    <string name="feature_transaction_amount">Amount</string>
+    <string name="feature_transaction_description">Description</string>
+
+    <string name="feature_transaction_save">Save Transaction</string>
+    <string name="feature_transaction_update">Update Transaction</string>
+
+    <string name="feature_transaction_amount_required">Amount is required</string>
+    <string name="feature_transaction_amount_invalid">Enter a valid amount</string>
+    <string name="feature_transaction_amount_positive">Amount must be greater than 0</string>
+    <string name="feature_transaction_category_required">Please select a category</string>
+    <string name="feature_transaction_search">Search transactions</string>
+    <string name="feature_transaction_empty">No transactions found.</string>
+
+    <!-- Titles -->
+    <string name="feature_transaction_title">Transactions</string>
+
+    <!-- Count (use %1$d placeholder) -->
+    <string name="feature_transaction_count">%1$d transactions</string>
+
+    <!-- Actions -->
+    <string name="feature_transaction_add">Add Transaction</string>
+    <string name="feature_transaction_edit">Edit</string>
+
+    <!-- Empty states -->
+    <string name="feature_transaction_no_transactions">No transactions yet</string>
+    <string name="feature_transaction_no_results">No results found</string>
+    <string name="feature_transaction_search_hint">Try a different keyword</string>
+    <string name="feature_transaction_create_hint">Tap the + button to add your first one</string>
+
+    <!-- Dialog / generic -->
+    <string name="error_title">Something went wrong</string>
+    <string name="ok">OK</string>
+
+
+    <!-- Bottom nav -->
+    <string name="nav_home">Home</string>
+    <string name="nav_categories">Categories</string>
+    <string name="nav_transactions">Transactions</string>
+
+    <!-- Home screen -->
+    <string name="feature_home_title">Overview</string>
+    <string name="feature_home_greeting">Welcome back</string>
+    <string name="feature_home_balance">Total balance</string>
+    <string name="feature_home_income">Income</string>
+    <string name="feature_home_expense">Expense</string>
+    <string name="feature_home_recent">Recent transactions</string>
+    <string name="feature_home_see_all">See all</string>
+    <string name="feature_home_empty">No recent activity yet.</string>
+
+
 </resources>

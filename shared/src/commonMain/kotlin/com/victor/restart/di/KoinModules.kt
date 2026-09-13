@@ -1,6 +1,7 @@
 package com.victor.restart.di
 
 import com.victor.restart.feature.di.AuthModule
+import com.victor.restart.feature.di.CategoryModule
 import org.koin.dsl.module
 
 
@@ -20,7 +21,8 @@ object KoinModules {
     }
     private val featureModules = module {
         includes(
-            AuthModule
+            AuthModule,
+            CategoryModule
         )
     }
 

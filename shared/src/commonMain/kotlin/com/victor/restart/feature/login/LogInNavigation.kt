@@ -16,14 +16,16 @@ fun NavController.navigateToLoginScreen() {
 
 fun NavGraphBuilder.loginDestination(
     navigateToRegisterScreen: () -> Unit,
-    navigateToPasscodeScreen: () -> Unit,
-    navigateToForgotPasswordScreen: () -> Unit,
+    navigateToHomeScreen: () -> Unit,
+    navigateToForgotPasswordScreen: () -> Unit
 ) {
+
     composable<LoginRoute> {
+
         LoginScreen(
             navigateToRegisterScreen = navigateToRegisterScreen,
-            navigateToPasscodeScreen = navigateToPasscodeScreen,
-            navigateToForgotPasswordScreen = navigateToForgotPasswordScreen,
+            navigateToHomeScreen = navigateToHomeScreen,
+            navigateToForgotPasswordScreen = navigateToForgotPasswordScreen
         )
     }
 }

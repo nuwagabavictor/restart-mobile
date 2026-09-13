@@ -6,6 +6,7 @@ import io.ktor.client.HttpClientConfig
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
@@ -56,6 +57,7 @@ fun HttpClientConfig<*>.installCommonPlugins() {
     }
 
     install(Logging){
+        logger = Logger.DEFAULT
         level = LogLevel.INFO
     }
 

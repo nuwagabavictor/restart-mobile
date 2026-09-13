@@ -1,4 +1,4 @@
-package com.victor.restart.core.repository
+package com.victor.restart.core.repository.user
 
 import com.victor.restart.core.entity.RegisterPayload
 import com.victor.restart.core.entity.User

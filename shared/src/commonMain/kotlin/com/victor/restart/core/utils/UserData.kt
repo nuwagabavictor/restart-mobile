@@ -8,7 +8,7 @@ data class UserData (
     val email: String = "",
     val username: String = "",
     val role: String = "",
-    val accessToken: String = "",
+    val accessToken: String? = "",
     val isAuthenticated: Boolean = false,
     val password: String = "",
 
