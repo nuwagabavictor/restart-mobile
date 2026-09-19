@@ -1,6 +1,5 @@
 package com.victor.restart.core.data.transaction
 
-import com.victor.restart.core.utils.QuotedDoubleSerializer
 import kotlinx.serialization.Serializable
 
 @Serializable
