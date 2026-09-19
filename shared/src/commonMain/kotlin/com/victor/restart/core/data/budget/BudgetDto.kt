@@ -2,6 +2,7 @@ package com.victor.restart.core.data.budget
 
 import com.victor.restart.core.utils.LocalDateTimeSerializer
 import com.victor.restart.core.utils.QuotedDoubleSerializer
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
 
@@ -18,14 +19,11 @@ data class BudgetDto(
     val categoryName: String,
     val categoryId: Long,
     val categoryType: String,
-    @Serializable(LocalDateTimeSerializer::class)
-    val startDate: LocalDateTime,
-    @Serializable(LocalDateTimeSerializer::class)
-    val endDate: LocalDateTime,
+    val startDate: LocalDate,
+    val endDate: LocalDate,
     @Serializable(LocalDateTimeSerializer::class)
     val createdAt: LocalDateTime,
     val isActive: Boolean,
     val isBudgetExceeded: Boolean
-
 
 )

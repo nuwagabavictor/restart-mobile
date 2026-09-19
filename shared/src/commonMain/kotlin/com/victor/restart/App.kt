@@ -26,10 +26,13 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.victor.restart.core.enums.AuthState
 import com.victor.restart.core.repository.userdata.UserDataRepository
+import com.victor.restart.feature.budget.budgetDestination
+import com.victor.restart.feature.category.CategoryGraph
 import com.victor.restart.feature.category.CategoryRoute
 import com.victor.restart.feature.category.categoryDestination
 import com.victor.restart.feature.category.navigateToCategories
 import com.victor.restart.feature.home.BottomNavItem
+import com.victor.restart.feature.home.HomeGraph
 import com.victor.restart.feature.home.HomeRoute
 import com.victor.restart.feature.home.homeDestination
 import com.victor.restart.feature.home.navigateToHome
@@ -40,6 +43,7 @@ import com.victor.restart.feature.password.passwordDestination
 import com.victor.restart.feature.register.RegisterRoute
 import com.victor.restart.feature.register.navigateToRegisterScreen
 import com.victor.restart.feature.register.registerDestination
+import com.victor.restart.feature.transaction.TransactionGraph
 import com.victor.restart.feature.transaction.TransactionRoute
 import com.victor.restart.feature.transaction.navigateToTransactions
 import com.victor.restart.feature.transaction.transactionDestination
@@ -113,9 +117,9 @@ private fun PrivateNavGraph() {
 
     // Bar visible only on the three top-level tab routes
     val showBottomBar = currentDestination?.hierarchy?.any { dest ->
-        dest.hasRoute(HomeRoute::class) ||
-                dest.hasRoute(CategoryRoute::class) ||
-                dest.hasRoute(TransactionRoute::class)
+        dest.hasRoute(HomeGraph::class) ||
+                dest.hasRoute(CategoryGraph::class) ||
+                dest.hasRoute(TransactionGraph::class)
     } == true
 
     Scaffold(
@@ -157,12 +161,13 @@ private fun PrivateNavGraph() {
     ) { padding ->
         NavHost(
             navController = navController,
-            startDestination = HomeRoute,
+            startDestination = HomeGraph,
             modifier = Modifier.padding(padding)
         ) {
             homeDestination(navController)
             categoryDestination(navController)
             transactionDestination(navController)
+            budgetDestination(navController)
         }
     }
 }

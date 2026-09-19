@@ -100,6 +100,15 @@ class TransactionViewModel (
                     )
                 }
             }
+            is TransactionAction.CategoryIdChanged -> {
+                updateState {
+                    it.copy(
+                        categoryId = action.categoryId,
+                        categoryError = null,
+                        isError = false
+                    )
+                }
+            }
         }
     }
 
@@ -449,6 +458,8 @@ sealed interface TransactionAction {
     data class SearchQueryChanged(val query: String) : TransactionAction
 
     data class EditTransactionClicked(val transaction: Transaction) : TransactionAction
+
+    data class CategoryIdChanged(val categoryId: Long) : TransactionAction
 
     data object LoadTransactions : TransactionAction
 

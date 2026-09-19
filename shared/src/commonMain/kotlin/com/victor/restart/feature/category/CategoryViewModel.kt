@@ -97,6 +97,13 @@ class CategoryViewModel(
                     )
                 )
             }
+            is CategoryAction.CategoryClicked -> {
+                sendEvent(
+                    CategoryEvent.NavigateToCategory(
+                        action.category
+                    )
+                )
+            }
 
             is CategoryAction.DeleteCategoryClicked -> {
                 updateState {
@@ -267,6 +274,7 @@ class CategoryViewModel(
                         name = category.name,
                         description = category.description.orEmpty(),
                         type = category.type,
+                        selectedCategory = category,
                         isEditMode = true,
                         showOverlay = false,
                         isError = false,
@@ -499,6 +507,8 @@ data class CategoryState(
 
     val categoryToDelete: Category? = null,
     val showDeleteDialog: Boolean = false,
+    val selectedCategory: Category? = null,
+
 
     val uiState: ScreenUiState,
 
@@ -547,6 +557,8 @@ sealed interface CategoryAction {
 
     data class DeleteCategoryClicked(val category: Category) : CategoryAction
 
+    data class CategoryClicked(val category: Long) : CategoryAction
+
     data object DeleteCategoryConfirmed : CategoryAction
 
     data object DeleteDialogDismiss : CategoryAction
@@ -578,4 +590,7 @@ sealed interface CategoryEvent {
     data class ShowToast(val message: String) : CategoryEvent
 
     data class NavigateToEdit(val id: Long) : CategoryEvent
+
+    data class NavigateToCategory(val categoryId: Long) : CategoryEvent
+
 }
