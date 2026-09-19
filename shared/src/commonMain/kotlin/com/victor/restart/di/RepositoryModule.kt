@@ -1,5 +1,7 @@
 package com.victor.restart.di
 
+import com.victor.restart.core.repository.budget.BudgetRepository
+import com.victor.restart.core.repository.budget.BudgetRepositoryImpl
 import com.victor.restart.core.repository.category.CategoryRepository
 import com.victor.restart.core.repository.category.CategoryRepositoryImpl
 import com.victor.restart.core.repository.transaction.TransactionRepository
@@ -24,6 +26,7 @@ val RepositoryModule = module {
     single<UserDataRepository> { UserDataRepositoryImpl(get(), get(ioDispatcher), get(unconfinedDispatcher)) }
     single<CategoryRepository>{ CategoryRepositoryImpl(get(), get(ioDispatcher)) }
     single<TransactionRepository>{ TransactionRepositoryImpl(get(), get(ioDispatcher)) }
+    single<BudgetRepository>{ BudgetRepositoryImpl(get(), get(ioDispatcher)) }
     single<PlatformDependentDataModule> { getPlatformDataModule }
     single<NetworkMonitor> { getPlatformDataModule.networkMonitor }
     includes(platformModule)

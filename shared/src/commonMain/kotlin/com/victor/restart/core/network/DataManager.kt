@@ -7,7 +7,9 @@ open class DataManager(
 ) {
     open val userApi by lazy { ktorfitClient!!.userApi }
     open val categoryApi by lazy { ktorfitClient!!.categoryApi }
-
     open val transactionApi by lazy { ktorfitClient!!.transactionApi }
+
+    open val budgetApi by lazy { ktorfitClient!!.budgetApi }
+
 
 }

@@ -23,6 +23,14 @@ object ApiEndPoints {
 
     const val FIND_TRANSACTIONS = "transactions/"
 
+    const val CREATE_BUDGET = "budgets/create"
+
+    const val UPDATE_BUDGET = "budgets/"
+
+    const val FIND_BUDGET = "budgets/"
+
+    const val FIND_BUDGETS = "budgets/"
+
 
 
 
