@@ -79,6 +79,8 @@
     <string name="feature_transaction_category_required">Please select a category</string>
     <string name="feature_transaction_search">Search transactions</string>
     <string name="feature_transaction_empty">No transactions found.</string>
+    <string name="feature_budget_period_required">Please select a budget period</string>
+
 
     <!-- Titles -->
     <string name="feature_transaction_title">Transactions</string>
@@ -115,6 +117,59 @@
     <string name="feature_home_recent">Recent transactions</string>
     <string name="feature_home_see_all">See all</string>
     <string name="feature_home_empty">No recent activity yet.</string>
+
+
+
+    <!-- Budget Screen -->
+    <string name="feature_budget_title">Budgets</string>
+    <string name="feature_budget_create_title">Create Budget</string>
+    <string name="feature_budget_edit_title">Edit Budget</string>
+
+    <!-- Buttons -->
+    <string name="feature_budget_add">Add Budget</string>
+    <string name="feature_budget_save">Save Budget</string>
+    <string name="feature_budget_update">Update Budget</string>
+
+    <!-- Fields -->
+    <string name="feature_budget_amount">Budget Amount</string>
+    <string name="feature_budget_category">Category</string>
+    <string name="feature_budget_period">Budget Period</string>
+
+    <!-- Period values -->
+    <string name="feature_budget_period_weekly">Weekly</string>
+    <string name="feature_budget_period_monthly">Monthly</string>
+    <string name="feature_budget_period_yearly">Yearly</string>
+
+        <!-- Search -->
+    <string name="feature_budget_search">Search budgets</string>
+    <string name="feature_budget_search_hint">
+        Search by category or period.
+    </string>
+
+        <!-- Empty State -->
+    <string name="feature_budget_no_budgets">
+        No budgets created yet.
+    </string>
+
+    <string name="feature_budget_create_hint">
+        Create your first spending budget.
+    </string>
+
+    <string name="feature_budget_no_results">
+        No budgets match your search.
+    </string>
+
+
+    <!-- Count -->
+    <string name="feature_budget_count">%1$d budgets</string>
+
+    <!-- Budget Status -->
+    <string name="feature_budget_active">Active</string>
+    <string name="feature_budget_inactive">Inactive</string>
+    <string name="feature_budget_exceeded">Exceeded</string>
+    <string name="feature_budget_remaining">Remaining</string>
+    <string name="feature_budget_spent">Spent</string>
+
 
 
 </resources>

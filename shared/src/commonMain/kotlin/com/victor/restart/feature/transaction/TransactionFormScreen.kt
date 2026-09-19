@@ -7,10 +7,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExposedDropdownMenuAnchorType
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -19,9 +15,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -40,29 +33,46 @@ import restart.shared.generated.resources.feature_transaction_update
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TransactionFormScreen(
+    transactionId: Long?,
+    categoryId: Long?,
     navController: NavController,
     modifier: Modifier = Modifier,
     viewModel: TransactionViewModel = koinViewModel()
 ) {
     val state = viewModel.stateFlow.collectAsStateWithLifecycle().value
 
+    /*
+     * When coming from Category Details, automatically set
+     * the selected category.
+     */
+    LaunchedEffect(categoryId) {
+        if (transactionId == null && categoryId != null) {
+            viewModel.trySendAction(
+                TransactionAction.CategoryIdChanged(categoryId)
+            )
+        }
+    }
+
     // Handle save / back events from the ViewModel
     LaunchedEffect(Unit) {
         viewModel.eventFlow.collect { event ->
             when (event) {
                 is TransactionEvent.NavigateBack -> {
-                    // Tell the list screen to refresh
                     navController.previousBackStackEntry
                         ?.savedStateHandle
                         ?.set("refresh_transactions", true)
+
                     navController.previousBackStackEntry
                         ?.savedStateHandle
                         ?.set("home_needs_refresh", true)
+
                     navController.popBackStack()
                 }
+
                 is TransactionEvent.ShowToast -> {
                     // Optional: hook into your snackbar host
                 }
+
                 is TransactionEvent.NavigateToEdit -> {
                     // Not used from the form screen
                 }
@@ -77,8 +87,11 @@ fun TransactionFormScreen(
                 title = {
                     Text(
                         stringResource(
-                            if (state.isEditMode) Res.string.feature_transaction_edit_title
-                            else Res.string.feature_transaction_create_title
+                            if (state.isEditMode) {
+                                Res.string.feature_transaction_edit_title
+                            } else {
+                                Res.string.feature_transaction_create_title
+                            }
                         )
                     )
                 }
@@ -93,52 +106,20 @@ fun TransactionFormScreen(
                 .fillMaxWidth()
         ) {
 
-            // ---------- Category dropdown ----------
-            var expanded by remember { mutableStateOf(false) }
-
-            ExposedDropdownMenuBox(
-                expanded = expanded,
-                onExpandedChange = { expanded = it }
-            ) {
-                OutlinedTextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable),
-                    value = state.selectedCategory?.name.orEmpty(),
-                    onValueChange = {},
-                    readOnly = true,
-                    label = {
-                        Text(stringResource(Res.string.feature_transaction_category))
-                    },
-                    trailingIcon = {
-                        ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
-                    }
-                )
-
-                ExposedDropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false }
-                ) {
-                    if (state.categories.isEmpty()) {
-                        DropdownMenuItem(
-                            text = { Text("No categories") },
-                            onClick = { expanded = false }
+            // ---------- Category ----------
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = state.selectedCategory?.name.orEmpty(),
+                onValueChange = {},
+                readOnly = true,
+                label = {
+                    Text(
+                        stringResource(
+                            Res.string.feature_transaction_category
                         )
-                    } else {
-                        state.categories.forEach { category ->
-                            DropdownMenuItem(
-                                text = { Text(category.name) },
-                                onClick = {
-                                    viewModel.trySendAction(
-                                        TransactionAction.CategoryChanged(category)
-                                    )
-                                    expanded = false
-                                }
-                            )
-                        }
-                    }
+                    )
                 }
-            }
+            )
 
             state.categoryError?.let {
                 Text(
@@ -155,10 +136,16 @@ fun TransactionFormScreen(
                 modifier = Modifier.fillMaxWidth(),
                 value = state.amount,
                 onValueChange = {
-                    viewModel.trySendAction(TransactionAction.AmountChanged(it))
+                    viewModel.trySendAction(
+                        TransactionAction.AmountChanged(it)
+                    )
                 },
                 label = {
-                    Text(stringResource(Res.string.feature_transaction_amount))
+                    Text(
+                        stringResource(
+                            Res.string.feature_transaction_amount
+                        )
+                    )
                 }
             )
 
@@ -177,10 +164,16 @@ fun TransactionFormScreen(
                 modifier = Modifier.fillMaxWidth(),
                 value = state.description,
                 onValueChange = {
-                    viewModel.trySendAction(TransactionAction.DescriptionChanged(it))
+                    viewModel.trySendAction(
+                        TransactionAction.DescriptionChanged(it)
+                    )
                 },
                 label = {
-                    Text(stringResource(Res.string.feature_transaction_description))
+                    Text(
+                        stringResource(
+                            Res.string.feature_transaction_description
+                        )
+                    )
                 }
             )
 
@@ -191,19 +184,27 @@ fun TransactionFormScreen(
                 modifier = Modifier.fillMaxWidth(),
                 enabled = state.isSaveButtonEnabled,
                 onClick = {
-                    viewModel.trySendAction(TransactionAction.SaveTransactionClicked)
+                    viewModel.trySendAction(
+                        TransactionAction.SaveTransactionClicked
+                    )
                 }
             ) {
                 Text(
                     stringResource(
-                        if (state.isEditMode) Res.string.feature_transaction_update
-                        else Res.string.feature_transaction_save
+                        if (state.isEditMode) {
+                            Res.string.feature_transaction_update
+                        } else {
+                            Res.string.feature_transaction_save
+                        }
                     )
                 )
             }
         }
     }
 
-    if (state.showOverlay) LoadingOverlay()
+    if (state.showOverlay) {
+        LoadingOverlay()
+    }
+
     TransactionDialogs(state, viewModel)
 }

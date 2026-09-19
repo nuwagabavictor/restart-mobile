@@ -1,6 +1,7 @@
 package com.victor.restart.feature.category
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
@@ -12,7 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import org.jetbrains.compose.resources.stringResource
 import restart.shared.generated.resources.Res
-import restart.shared.generated.resources.feature_category_delete_title
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
@@ -57,6 +57,7 @@ import androidx.compose.runtime.LaunchedEffect
 
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.victor.restart.core.utils.EventsEffect
 import org.koin.compose.viewmodel.koinViewModel
 import restart.shared.generated.resources.feature_category_count
 import restart.shared.generated.resources.feature_category_delete_confirm
@@ -68,11 +69,22 @@ import restart.shared.generated.resources.feature_category_title
 fun CategoryScreen(
     navigateToCategoryForm: () -> Unit,
     navigateToEditCategory: (Long) -> Unit,
+    navigateToCategory: (Long) -> Unit,
     modifier: Modifier = Modifier,
     navController: NavController,
     viewModel: CategoryViewModel = koinViewModel()
 ) {
     val state = viewModel.stateFlow.collectAsStateWithLifecycle().value
+
+    EventsEffect(viewModel.eventFlow) { event ->
+        when (event) {
+            is CategoryEvent.NavigateToCategory -> {
+                navigateToCategory(event.categoryId)
+            }
+
+            else -> Unit
+        }
+    }
 
     LaunchedEffect(Unit) {
         navController.currentBackStackEntry
@@ -156,6 +168,10 @@ fun CategoryScreen(
             CategoryContent(
                 categories = state.filteredCategories,
                 searchQuery = state.searchQuery,
+                onCategoryClick = {
+                    viewModel.trySendAction(
+                    CategoryAction.CategoryClicked(it)
+                )},
                 onAddCategory = navigateToCategoryForm,
                 onEditCategory = navigateToEditCategory,
                 onDeleteCategory = {
@@ -179,6 +195,7 @@ fun CategoryScreen(
 fun CategoryContent(
     categories: List<Category>,
     searchQuery: String,
+    onCategoryClick: (Long) -> Unit,
     onAddCategory: () -> Unit,
     onEditCategory: (Long) -> Unit,
     onDeleteCategory: (Category) -> Unit,
@@ -210,6 +227,9 @@ fun CategoryContent(
                     },
                     onDelete = {
                         onDeleteCategory(category)
+                    },
+                    onClick = {
+                        onCategoryClick(category.id)
                     }
                 )
             }
@@ -222,10 +242,13 @@ fun CategoryContent(
 fun CategoryCard(
     category: Category,
     onEdit: () -> Unit,
-    onDelete: () -> Unit
-) {
+    onDelete: () -> Unit,
+    onClick: () -> Unit,
+    ) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface

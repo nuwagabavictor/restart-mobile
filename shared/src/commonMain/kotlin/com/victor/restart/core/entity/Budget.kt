@@ -1,9 +1,7 @@
 package com.victor.restart.core.entity
 
-import com.victor.restart.core.utils.LocalDateTimeSerializer
-import com.victor.restart.core.utils.QuotedDoubleSerializer
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
-import kotlinx.serialization.Serializable
 
 enum class BudgetPeriod{
     WEEKLY,
@@ -20,8 +18,8 @@ data class Budget(
     val categoryName: String,
     val categoryId: Long,
     val categoryType: String,
-    val startDate: LocalDateTime,
-    val endDate: LocalDateTime,
+    val startDate: LocalDate,
+    val endDate: LocalDate,
     val createdAt: LocalDateTime,
     val isActive: Boolean,
     val isBudgetExceeded: Boolean
