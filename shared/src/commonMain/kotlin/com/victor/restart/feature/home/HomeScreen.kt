@@ -32,6 +32,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.victor.restart.core.entity.Transaction
+import com.victor.restart.feature.notification.NotificationIcon
+import com.victor.restart.feature.notification.NotificationViewModel
+import com.victor.restart.feature.notification.navigateToNotifications
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import restart.shared.generated.resources.Res
@@ -51,9 +54,13 @@ fun HomeScreen(
     navigateToCategories: () -> Unit,
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = koinViewModel()
+    viewModel: HomeViewModel = koinViewModel(),
+    notificationViewModel: NotificationViewModel = koinViewModel()
 ) {
     val state by viewModel.stateFlow.collectAsStateWithLifecycle()
+
+    val notificationState by notificationViewModel.stateFlow
+        .collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         navController.currentBackStackEntry
@@ -73,7 +80,20 @@ fun HomeScreen(
         modifier = modifier,
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(Res.string.feature_home_title)) }
+                title = {
+                    Text(
+                        stringResource(Res.string.feature_home_title)
+                    )
+                },
+                actions = {
+
+                    NotificationIcon(
+                        unreadCount = notificationState.unreadCount,
+                        onClick = {
+                            navController.navigateToNotifications()
+                        }
+                    )
+                }
             )
         }
     ) { padding ->

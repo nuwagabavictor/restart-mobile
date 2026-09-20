@@ -5,11 +5,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBalanceWallet
 import androidx.compose.material.icons.filled.Category
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 import org.jetbrains.compose.resources.StringResource
 import restart.shared.generated.resources.Res
 import restart.shared.generated.resources.nav_categories
 import restart.shared.generated.resources.nav_home
+import restart.shared.generated.resources.nav_settings
 import restart.shared.generated.resources.nav_transactions
 
 sealed class BottomNavItem(
@@ -33,7 +35,13 @@ sealed class BottomNavItem(
         routeKey = "transaction"
     )
 
+    data object Settings : BottomNavItem(
+        icon = Icons.Default.Settings,
+        label = Res.string.nav_settings,
+        routeKey = "settings"
+    )
+
     companion object {
-        val items = listOf(Home, Categories, Transactions)
+        val items = listOf(Home, Categories, Transactions, Settings)
     }
 }

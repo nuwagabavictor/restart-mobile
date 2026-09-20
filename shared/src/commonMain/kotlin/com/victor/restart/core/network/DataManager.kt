@@ -11,5 +11,8 @@ open class DataManager(
 
     open val budgetApi by lazy { ktorfitClient!!.budgetApi }
 
+    open val notificationApi by lazy { ktorfitClient!!.notificationApi }
+
+
 
 }

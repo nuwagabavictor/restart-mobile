@@ -4,6 +4,8 @@ import com.victor.restart.core.repository.budget.BudgetRepository
 import com.victor.restart.core.repository.budget.BudgetRepositoryImpl
 import com.victor.restart.core.repository.category.CategoryRepository
 import com.victor.restart.core.repository.category.CategoryRepositoryImpl
+import com.victor.restart.core.repository.notification.NotificationRepository
+import com.victor.restart.core.repository.notification.NotificationRepositoryImpl
 import com.victor.restart.core.repository.transaction.TransactionRepository
 import com.victor.restart.core.repository.transaction.TransactionRepositoryImpl
 import com.victor.restart.core.repository.userdata.UserDataRepository
@@ -27,6 +29,7 @@ val RepositoryModule = module {
     single<CategoryRepository>{ CategoryRepositoryImpl(get(), get(ioDispatcher)) }
     single<TransactionRepository>{ TransactionRepositoryImpl(get(), get(ioDispatcher)) }
     single<BudgetRepository>{ BudgetRepositoryImpl(get(), get(ioDispatcher)) }
+    single<NotificationRepository>{ NotificationRepositoryImpl(get(), get(ioDispatcher)) }
     single<PlatformDependentDataModule> { getPlatformDataModule }
     single<NetworkMonitor> { getPlatformDataModule.networkMonitor }
     includes(platformModule)
