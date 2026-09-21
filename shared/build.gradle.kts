@@ -44,6 +44,17 @@ kotlin {
             implementation(libs.androidx.camera.view)
             implementation(libs.androidx.compose.material3)
             implementation(libs.ktor.client.android)
+            implementation(libs.review)
+            implementation(libs.review.ktx)
+
+            implementation(libs.app.update.ktx)
+            implementation(libs.app.update)
+
+            implementation(libs.androidx.activity.ktx)
+            implementation(libs.androidx.activity.compose)
+
+            implementation(libs.androidx.metrics)
+            implementation(libs.androidx.browser)
 
         }
         commonMain.dependencies {

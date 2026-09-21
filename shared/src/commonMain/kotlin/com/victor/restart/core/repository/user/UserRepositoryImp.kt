@@ -8,7 +8,9 @@ import com.victor.restart.core.mapper.UserMapper
 import com.victor.restart.core.network.DataManager
 import com.victor.restart.core.utils.DataState
 import com.victor.restart.core.utils.Logger
+import com.victor.restart.core.utils.extractErrorMessage
 import io.ktor.client.statement.bodyAsText
+import io.ktor.http.isSuccess
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
@@ -49,15 +51,20 @@ class UserRepositoryImp(
     }
 
     override suspend fun changePassword(
-        userId: Int,
         password: String,
         confirmPassword: String
     ): DataState<String> {
         return withContext(ioDispatcher) {
             try {
                 val payload = PasswordMapper.toDto(password, confirmPassword);
-                val response = dataManager.userApi.changePassword(userId, payload)
-                DataState.Success(response.bodyAsText())
+                val response = dataManager.userApi.changePassword(payload)
+                if (response.status.isSuccess()) {
+                    DataState.Success(response.bodyAsText())
+                } else {
+                    DataState.Error(
+                        Exception(extractErrorMessage(response))
+                    )
+                }
             } catch (e: Exception) {
                 DataState.Error(e)
             }

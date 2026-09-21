@@ -15,7 +15,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,7 +26,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.victor.restart.core.enums.AuthState
 import com.victor.restart.core.repository.userdata.UserDataRepository
-import com.victor.restart.core.utils.LocalAppLocale
 import com.victor.restart.feature.budget.budgetDestination
 import com.victor.restart.feature.category.CategoryGraph
 import com.victor.restart.feature.category.CategoryRoute
@@ -38,10 +36,14 @@ import com.victor.restart.feature.home.HomeGraph
 import com.victor.restart.feature.home.HomeRoute
 import com.victor.restart.feature.home.homeDestination
 import com.victor.restart.feature.home.navigateToHome
+import com.victor.restart.feature.localisation.AppEnvironment
+import com.victor.restart.feature.localisation.AppTheme
+import com.victor.restart.feature.login.LoginRoute
 import com.victor.restart.feature.login.loginDestination
 import com.victor.restart.feature.login.navigateToLoginScreen
 import com.victor.restart.feature.notification.notificationDestination
-import com.victor.restart.feature.password.navigateToPassword
+import com.victor.restart.feature.password.ForgotPasswordRoute
+import com.victor.restart.feature.password.navigateToForgotPassword
 import com.victor.restart.feature.password.passwordDestination
 import com.victor.restart.feature.register.RegisterRoute
 import com.victor.restart.feature.register.navigateToRegisterScreen
@@ -64,21 +66,27 @@ import org.koin.compose.koinInject
  */
 @Composable
 fun App() {
-    MaterialTheme {
-        Surface {
-            val repository: UserDataRepository = koinInject()
-            val authState by repository.authState.collectAsStateWithLifecycle(initialValue = AuthState.Loading)
-            val settings by repository.settingsState.collectAsStateWithLifecycle()
-            val locale = settings.language.locale
+    val repository: UserDataRepository = koinInject()
+    val authState by repository.authState.collectAsStateWithLifecycle(initialValue = AuthState.Loading)
+    val settings by repository.settingsState.collectAsStateWithLifecycle()
 
-            CompositionLocalProvider(
-                LocalAppLocale provides locale,
+
+    AppEnvironment(
+        locale = settings.language.locale,
+    ) {
+        AppTheme(
+            theme = settings.appTheme,
+        ) {
+            Surface(
+                modifier = Modifier.fillMaxSize(),
             ) {
+
                 when (authState) {
                     AuthState.Loading -> LoadingScreen()
                     AuthState.Unauthenticated -> PublicNavGraph()
                     is AuthState.Authenticated -> PrivateNavGraph()
                 }
+
             }
         }
     }
@@ -100,7 +108,7 @@ private fun PublicNavGraph() {
 
     NavHost(
         navController = navController,
-        startDestination = RegisterRoute,
+        startDestination = LoginRoute,
     ) {
         registerDestination(
             navigateToLoginScreen = { navController.navigateToLoginScreen() }
@@ -112,12 +120,9 @@ private fun PublicNavGraph() {
             // isAuthenticated = true. We do NOT navigate here. The gate
             // will replace this whole graph with the private one.
             navigateToHomeScreen = { /* no-op — gate handles it */ },
-            navigateToForgotPasswordScreen = { navController.navigateToPassword() },
+            navigateToForgotPasswordScreen = { navController.navigateToForgotPassword() },
         )
 
-        passwordDestination(
-            navigateToCancel = { navController.popBackStack() }
-        )
     }
 }
 
@@ -137,6 +142,7 @@ private fun PrivateNavGraph() {
     } == true
 
     Scaffold(
+        modifier = Modifier.fillMaxSize(),
         bottomBar = {
             if (showBottomBar) {
                 NavigationBar {
@@ -179,7 +185,9 @@ private fun PrivateNavGraph() {
         NavHost(
             navController = navController,
             startDestination = HomeGraph,
-            modifier = Modifier.padding(padding)
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
         ) {
             homeDestination(navController)
             categoryDestination(navController)
@@ -187,6 +195,7 @@ private fun PrivateNavGraph() {
             budgetDestination(navController)
             notificationDestination(navController)
             settingsDestination(navController)
+            passwordDestination(navController)
         }
     }
 }

@@ -9,7 +9,16 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import restart.shared.generated.resources.Res
+import restart.shared.generated.resources.feature_notifications_all
+import restart.shared.generated.resources.feature_notifications_back
+import restart.shared.generated.resources.feature_notifications_empty
+import restart.shared.generated.resources.feature_notifications_read_all
+import restart.shared.generated.resources.feature_notifications_title
+import restart.shared.generated.resources.feature_notifications_unread
+import restart.shared.generated.resources.feature_settings_change_language
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,12 +54,12 @@ fun NotificationScreen(
         topBar = {
 
             TopAppBar(
-                title = { Text("Notifications") },
+                title = { Text(stringResource(Res.string.feature_notifications_title)) },
                 navigationIcon = {
 
                     IconButton(onClick = onBackClick) {
 
-                        Text("←")
+                        Text(stringResource(Res.string.feature_notifications_back))
                     }
                 },
                 actions = {
@@ -64,7 +73,7 @@ fun NotificationScreen(
                                 )
                             }
                         ) {
-                            Text("Read all")
+                            Text(stringResource(Res.string.feature_notifications_read_all))
                         }
                     }
                 }
@@ -90,7 +99,7 @@ fun NotificationScreen(
                 ) {
 
                     Text(
-                        text = "Unread",
+                        text = stringResource(Res.string.feature_notifications_unread),
                         style = MaterialTheme.typography.titleMedium
                     )
 
@@ -123,7 +132,7 @@ fun NotificationScreen(
                         count = 2
                     )
                 ) {
-                    Text("All")
+                    Text(stringResource(Res.string.feature_notifications_all))
                 }
 
                 SegmentedButton(
@@ -140,7 +149,7 @@ fun NotificationScreen(
                         count = 2
                     )
                 ) {
-                    Text("Unread")
+                    Text(stringResource(Res.string.feature_notifications_unread))
                 }
             }
 
@@ -153,7 +162,7 @@ fun NotificationScreen(
                     contentAlignment = Alignment.Center
                 ) {
 
-                    Text("No notifications")
+                    Text(stringResource(Res.string.feature_notifications_empty))
                 }
 
             } else {

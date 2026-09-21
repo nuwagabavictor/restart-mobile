@@ -11,7 +11,18 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import restart.shared.generated.resources.Res
+import restart.shared.generated.resources.feature_notifications_action
+import restart.shared.generated.resources.feature_notifications_back
+import restart.shared.generated.resources.feature_notifications_date
+import restart.shared.generated.resources.feature_notifications_entity
+import restart.shared.generated.resources.feature_notifications_entity_id
+import restart.shared.generated.resources.feature_notifications_read
+import restart.shared.generated.resources.feature_notifications_status
+import restart.shared.generated.resources.feature_notifications_title
+import restart.shared.generated.resources.feature_notifications_unread
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,12 +45,12 @@ fun NotificationDetailScreen(
         topBar = {
 
             TopAppBar(
-                title = { Text("Notification") },
+                title = { Text(stringResource(Res.string.feature_notifications_title)) },
                 navigationIcon = {
 
                     IconButton(onClick = onBackClick) {
 
-                        Text("←")
+                        Text(stringResource(Res.string.feature_notifications_back))
                     }
                 }
             )
@@ -96,31 +107,31 @@ fun NotificationDetailScreen(
                     HorizontalDivider()
 
                     DetailRow(
-                        title = "Entity",
+                        title = stringResource(Res.string.feature_notifications_entity),
                         value = notification.entity
                     )
 
                     DetailRow(
-                        title = "Action",
+                        title = stringResource(Res.string.feature_notifications_action),
                         value = notification.action
                     )
 
                     DetailRow(
-                        title = "Entity ID",
+                        title = stringResource(Res.string.feature_notifications_entity_id),
                         value = notification.entityId.toString()
                     )
 
                     DetailRow(
-                        title = "Date",
+                        title = stringResource(Res.string.feature_notifications_date),
                         value = notification.createdAt
                     )
 
                     DetailRow(
-                        title = "Status",
+                        title = stringResource(Res.string.feature_notifications_status),
                         value = if (notification.isRead)
-                            "Read"
+                            stringResource(Res.string.feature_notifications_read)
                         else
-                            "Unread"
+                            stringResource(Res.string.feature_notifications_unread)
                     )
                 }
             }

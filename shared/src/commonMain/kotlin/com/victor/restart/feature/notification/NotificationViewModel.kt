@@ -302,6 +302,12 @@ class NotificationViewModel(
                     }
                 }
 
+                // Refresh notification list.
+                loadNotifications()
+
+                // Refresh notification badge.
+                loadUnreadCount()
+
                 println("NOTIFICATION DETAIL VM: ${result.data}")
             }
 

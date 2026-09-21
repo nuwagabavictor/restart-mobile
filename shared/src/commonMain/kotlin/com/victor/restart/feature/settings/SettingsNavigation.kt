@@ -8,6 +8,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.victor.restart.feature.language.ChangeLanguageScreen
 import com.victor.restart.feature.notification.navigateToNotifications
+import com.victor.restart.feature.password.navigateToChangePassword
+import com.victor.restart.feature.theme.ChangeThemeScreen
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -23,8 +25,16 @@ data object SettingsRoute
 @SerialName("change_language")
 data object ChangeLanguageRoute
 
+@Serializable
+@SerialName("change_theme")
+data object ChangeThemeRoute
+
 fun NavController.navigateToChangeLanguage() {
     navigate(ChangeLanguageRoute)
+}
+
+fun NavController.navigateToChangeTheme() {
+    navigate(ChangeThemeRoute)
 }
 
 fun NavController.navigateToSettings() {
@@ -56,21 +66,33 @@ fun NavGraphBuilder.settingsDestination(
                 onChangeLanguageClick = {
                     navController.navigateToChangeLanguage()
                 },
+                onChangeThemeClick = {
+                    navController.navigateToChangeTheme()
+                },
                 onSupportClick = {
                     // Will be connected later
                 },
                 onChangePasswordClick = {
-                    // Will be connected later
+                    navController.navigateToChangePassword()
                 },
                 onAboutClick = {
                     // Will be connected later
-                }
+                },
+                onLogout = {}
             )
         }
 
         composable<ChangeLanguageRoute> {
             ChangeLanguageScreen(
-                onBackClick = {
+                navigateBack = {
+                    navController.popBackStack()
+                },
+            )
+        }
+
+        composable<ChangeThemeRoute> {
+            ChangeThemeScreen(
+                navigateBack = {
                     navController.popBackStack()
                 },
             )

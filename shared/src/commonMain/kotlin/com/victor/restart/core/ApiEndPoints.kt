@@ -5,6 +5,8 @@ object ApiEndPoints {
     const val REGISTER_USER = "authentication/register"
     const val CHANGE_PASSWORD = "authentication/change-password"
 
+    const val CHANGE_PASSWORD_SELF = "authentication/change-password-self"
+
     const val CREATE_CATEGORY = "categories/create"
 
     const val UPDATE_CATEGORY = "categories/"

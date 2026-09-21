@@ -1,0 +1,246 @@
+<resources>
+
+    <!-- Register screen -->
+    <string name="feature_sign_in_title">Fungua akaunti yako</string>
+    <string name="feature_sign_in_sub_title">Jisajili ili kuanza</string>
+    <string name="feature_sign_in_username_label">Jina la mtumiaji</string>
+    <string name="feature_sign_in_email_label">Barua pepe</string>
+    <string name="feature_sign_in_phone_label">Simu</string>
+    <string name="feature_sign_in_password_label">Nenosiri</string>
+    <string name="feature_sign_in_password_title">Badilisha Nenosiri</string>
+    <string name="feature_sign_in_confirm_password_label">Thibitisha Nenosiri</string>
+    <string name="feature_sign_in_sign_up">Jisajili</string>
+    <string name="feature_login">Ingia</string>
+    <string name="feature_sign_in_sign_in">Una akaunti tayari? Ingia</string>
+    <string name="feature_sign_in_forgot_password">Umesahau nenosiri?</string>
+    <string name="feature_sign_in_dont_have_an_account">Huna akaunti?</string>
+
+    <!-- Validation errors -->
+    <string name="feature_sign_in_username_error">Jina la mtumiaji linahitajika</string>
+    <string name="feature_sign_in_email_error">Weka barua pepe halali</string>
+    <string name="feature_sign_in_phone_error">Weka nambari ya simu halali</string>
+    <string name="feature_sign_in_password_error">Nenosiri lazima liwe na angalau herufi 8 na lisiwe dhaifu</string>
+
+    <!-- Errors / misc -->
+    <string name="internal_server_error">Kuna hitilafu. Tafadhali jaribu tena.</string>
+    <string name="no_client_assigned">Hakuna mteja aliyepangiwa</string>
+
+    <string name="feature_register_powered_by">Imetengenezwa na Victor</string>
+    <string name="feature_register_error_title">Hitilafu</string>
+    <string name="feature_register_ok">Sawa</string>
+    <string name="feature_register_button">Jisajili</string>
+    <string name="feature_register_app_logo_description">Nembo ya programu</string>
+    <string name="feature_register_error_icon_description">Hitilafu</string>
+    <string name="feature_register_show_password_description">Onyesha nenosiri</string>
+    <string name="feature_register_hide_password_description">Ficha nenosiri</string>
+
+    <string name="feature_register_password_weak">Nenosiri dhaifu</string>
+    <string name="feature_register_password_medium">Nguvu ya wastani</string>
+    <string name="feature_register_password_strong">Nenosiri imara</string>
+    <string name="feature_confirm">Thibitisha</string>
+
+
+    <!-- Categories -->
+    <string name="feature_category_title">Aina</string>
+    <string name="feature_category_count">%1$d aina</string>
+    <string name="feature_category_search">Tafuta aina</string>
+    <string name="feature_search">Tafuta </string>
+    <string name="feature_category_add">Ongeza aina</string>
+    <string name="feature_category_edit">Hariri</string>
+    <string name="feature_category_delete">Futa</string>
+    <string name="feature_category_active">Inatumika</string>
+    <string name="feature_category_inactive">Haitumiki</string>
+    <string name="feature_category_no_categories">Bado hakuna aina</string>
+    <string name="feature_category_no_results">Hakuna aina zilizopatikana</string>
+    <string name="feature_category_search_hint">Jaribu neno tofauti la utafutaji.</string>
+    <string name="feature_category_create_hint">Unda aina yako ya kwanza ili kuanza.</string>
+    <string name="feature_category_delete_title">Futa aina?</string>
+    <string name="feature_category_delete_confirm">Futa</string>
+    <string name="feature_category_delete_cancel">Ghairi</string>
+    <string name="feature_category_deleted_successfully">Aina imefutwa kwa mafanikio</string>
+    <string name="feature_category_error_title">Kuna hitilafu</string>
+    <string name="feature_category_error_ok">Sawa</string>
+    <string name="feature_category_name">Jina la Aina</string>
+    <string name="feature_category_type">Aina ya Kategoria</string>
+    <string name="feature_category_description">Maelezo ya Aina</string>
+    <string name="feature_category_create">Unda aina</string>
+    <string name="feature_category_edit_cat">Hariri aina</string>
+
+
+    <!-- Transactions -->
+    <string name="feature_transaction_create_title">Muamala Mpya</string>
+    <string name="feature_transaction_edit_title">Hariri Muamala</string>
+
+    <string name="feature_transaction_category">Aina</string>
+    <string name="feature_transaction_amount">Kiasi</string>
+    <string name="feature_transaction_description">Maelezo</string>
+
+    <string name="feature_transaction_save">Hifadhi Muamala</string>
+    <string name="feature_transaction_update">Sasisha Muamala</string>
+
+    <string name="feature_transaction_amount_required">Kiasi kinahitajika</string>
+    <string name="feature_transaction_amount_invalid">Weka kiasi halali</string>
+    <string name="feature_transaction_amount_positive">Kiasi lazima kiwe zaidi ya 0</string>
+    <string name="feature_transaction_category_required">Tafadhali chagua aina</string>
+    <string name="feature_transaction_search">Tafuta miamala</string>
+    <string name="feature_transaction_empty">Hakuna miamala iliyopatikana.</string>
+    <string name="feature_budget_period_required">Tafadhali chagua kipindi cha bajeti</string>
+
+    <!-- Titles -->
+    <string name="feature_transaction_title">Miamala</string>
+
+    <!-- Count -->
+    <string name="feature_transaction_count">%1$d miamala</string>
+
+    <!-- Actions -->
+    <string name="feature_transaction_add">Ongeza Muamala</string>
+    <string name="feature_transaction_edit">Hariri</string>
+
+    <!-- Empty states -->
+    <string name="feature_transaction_no_transactions">Bado hakuna miamala</string>
+    <string name="feature_transaction_no_results">Hakuna matokeo yaliyopatikana</string>
+    <string name="feature_transaction_search_hint">Jaribu neno tofauti</string>
+    <string name="feature_transaction_create_hint">Gusa kitufe cha + kuongeza muamala wako wa kwanza</string>
+
+    <!-- Dialog / generic -->
+    <string name="error_title">Kuna hitilafu</string>
+    <string name="ok">Sawa</string>
+
+
+    <!-- Bottom nav -->
+    <string name="nav_home">Nyumbani</string>
+    <string name="nav_categories">Aina</string>
+    <string name="nav_transactions">Miamala</string>
+    <string name="nav_settings">Mipangilio</string>
+
+    <!-- Home screen -->
+    <string name="feature_home_title">Muhtasari</string>
+    <string name="feature_home_greeting">Karibu tena</string>
+    <string name="feature_home_balance">Salio Jumla</string>
+    <string name="feature_home_income">Mapato</string>
+    <string name="feature_home_expense">Matumizi</string>
+    <string name="feature_home_recent">Miamala ya hivi karibuni</string>
+    <string name="feature_home_see_all">Ona yote</string>
+    <string name="feature_home_empty">Bado hakuna shughuli za hivi karibuni.</string>
+
+
+    <!-- Budget Screen -->
+    <string name="feature_budget_title">Bajeti</string>
+    <string name="feature_budget_create_title">Unda Bajeti</string>
+    <string name="feature_budget_edit_title">Hariri Bajeti</string>
+
+    <!-- Buttons -->
+    <string name="feature_budget_add">Ongeza Bajeti</string>
+    <string name="feature_budget_save">Hifadhi Bajeti</string>
+    <string name="feature_budget_update">Sasisha Bajeti</string>
+
+    <!-- Fields -->
+    <string name="feature_budget_amount">Kiasi cha Bajeti</string>
+    <string name="feature_budget_category">Aina</string>
+    <string name="feature_budget_period">Kipindi cha Bajeti</string>
+
+    <!-- Period values -->
+    <string name="feature_budget_period_weekly">Kila Wiki</string>
+    <string name="feature_budget_period_monthly">Kila Mwezi</string>
+    <string name="feature_budget_period_yearly">Kila Mwaka</string>
+
+    <!-- Search -->
+    <string name="feature_budget_search">Tafuta bajeti</string>
+    <string name="feature_budget_search_hint">Tafuta kwa aina au kipindi.</string>
+
+    <!-- Empty State -->
+    <string name="feature_budget_no_budgets">Bado hakuna bajeti zilizoundwa.</string>
+    <string name="feature_budget_create_hint">Unda bajeti yako ya kwanza ya matumizi.</string>
+    <string name="feature_budget_no_results">Hakuna bajeti inayolingana na utafutaji wako.</string>
+
+    <!-- Count -->
+    <string name="feature_budget_count">%1$d bajeti</string>
+
+    <!-- Budget Status -->
+    <string name="feature_budget_active">Inatumika</string>
+    <string name="feature_budget_inactive">Haitumiki</string>
+    <string name="feature_budget_exceeded">Imevuka kikomo</string>
+    <string name="feature_budget_remaining">Iliyobaki</string>
+    <string name="feature_budget_spent">Iliyotumika</string>
+
+
+    <!-- Theme -->
+    <string name="feature_cancel">Ghairi</string>
+    <string name="feature_save">Hifadhi</string>
+    <string name="feature_light_starts">Mandhari ya mwanga inaanza</string>
+    <string name="feature_dark_starts">Mandhari ya giza inaanza</string>
+    <string name="feature_theme_schedule">Ratiba ya Mandhari</string>
+    <string name="feature_theme_config_device">Tumia mandhari ya kifaa chako</string>
+    <string name="feature_theme_config_light">Tumia mandhari ya mwanga kila wakati</string>
+    <string name="feature_theme_config_dark">Tumia mandhari ya giza kila wakati</string>
+    <string name="feature_theme_toggle_dark_light">Chagua wakati ambapo mandhari ya mwanga na giza yanapaswa kutumika.</string>
+    <string name="feature_theme_config_device_1">Fuata Mfumo</string>
+    <string name="feature_theme_config_light_2">Mwanga</string>
+    <string name="feature_theme_config_dark_3">Giza</string>
+    <string name="feature_theme_config_based_on_time">Kulingana na Wakati</string>
+    <string name="feature_theme_select_preferred">Chagua mandhari unayopendelea</string>
+    <string name="feature_theme_saving">Inahifadhi...</string>
+    <string name="feature_theme_save">Hifadhi Mandhari</string>
+    <string name="feature_language_save">Hifadhi Lugha</string>
+    <string name="feature_theme_title">Badilisha Mandhari</string>
+
+
+    <!-- Settings -->
+    <string name="feature_settings_title">Mipangilio</string>
+
+    <!-- Preferences -->
+    <string name="feature_settings_preferences">Mapendeleo</string>
+
+    <string name="feature_settings_notifications">Arifa</string>
+    <string name="feature_settings_notifications_subtitle">Dhibiti arifa zako</string>
+
+    <string name="feature_settings_change_language">Badilisha Lugha</string>
+    <string name="feature_settings_change_theme">Badilisha Mandhari</string>
+
+    <!-- Support -->
+    <string name="feature_settings_support">Msaada</string>
+    <string name="feature_settings_get_in_touch">Wasiliana nasi</string>
+    <string name="feature_settings_contact_support">Wasiliana na msaada</string>
+
+    <!-- Security -->
+    <string name="feature_settings_security">Usalama</string>
+    <string name="feature_settings_change_password">Badilisha Nenosiri</string>
+    <string name="feature_settings_update_password">Sasisha nenosiri la akaunti yako</string>
+
+    <!-- About -->
+    <string name="feature_settings_about">Kuhusu</string>
+    <string name="feature_settings_about_us">Kuhusu Sisi</string>
+    <string name="feature_settings_learn_more">Jifunze zaidi kuhusu programu</string>
+
+
+    <!-- Notifications -->
+    <string name="feature_notifications_title">Arifa</string>
+    <string name="feature_notifications_back">←</string>
+    <string name="feature_notifications_read_all">Soma zote</string>
+
+    <string name="feature_notifications_read">Imesomwa</string>
+
+    <string name="feature_notifications_unread">Hazijasomwa</string>
+    <string name="feature_notifications_all">Zote</string>
+
+    <string name="feature_notifications_empty">Hakuna arifa</string>
+
+    <!-- Notification event types -->
+    <string name="feature_notifications_transaction_created">Muamala Umeundwa</string>
+    <string name="feature_notifications_user_login">Kuingia kwa Mtumiaji</string>
+
+    <!-- Notification details -->
+    <string name="feature_notifications_entity">Kitu</string>
+    <string name="feature_notifications_action">Kitendo</string>
+    <string name="feature_notifications_entity_id">Kitambulisho cha Kitu</string>
+    <string name="feature_notifications_date">Tarehe</string>
+    <string name="feature_notifications_status">Hali</string>
+
+
+    <!-- Language -->
+    <string name="feature_language_select_description">Chagua lugha unayopendelea. Unaweza kubadilisha hii baadaye katika Mipangilio.</string>
+
+    <!-- Password -->
+    <string name="feature_password_change_description">Weka nenosiri jipya la akaunti yako.</string>
+
+</resources>
