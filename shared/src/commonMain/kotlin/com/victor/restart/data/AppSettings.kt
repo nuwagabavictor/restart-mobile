@@ -22,7 +22,7 @@ data class AppSettings(
 ) {
     companion object {
         val DEFAULT = AppSettings(
-            baseUrl = "https://localhost:8000/",
+            baseUrl = "https://localhost:4000/",
             appTheme = ThemeConfig.FOLLOW_SYSTEM,
             sentTokenToServer = false,
             gcmToken = null,

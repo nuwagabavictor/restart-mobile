@@ -31,6 +31,11 @@ object ApiEndPoints {
 
     const val FIND_BUDGETS = "budgets/"
 
+    const val NOTIFICATIONS = "notifications"
+    const val NOTIFICATION_COUNT = "notifications/count"
+    const val NOTIFICATION_UNREAD = "notifications/unread"
+    const val NOTIFICATION_READ_ALL = "notifications/read-all"
+
 
 
 

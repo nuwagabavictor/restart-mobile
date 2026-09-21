@@ -11,6 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -35,12 +36,17 @@ class UserDataRepositoryImpl  (
                 isAuthenticated = !preferencesHelper.token.value.isNullOrEmpty(),
                 username = preferencesHelper.userInfo.firstOrNull()?.username ?: "",
                 password = preferencesHelper.userInfo.firstOrNull()?.password ?: "",
-            )
+                email = preferencesHelper.userInfo.firstOrNull()?.email ?: "",
+                phone = preferencesHelper.userInfo.firstOrNull()?.phone ?: "",
+                role = preferencesHelper.userInfo.firstOrNull()?.role ?: "",
+                )
             emit(DataState.Success(userData))
         } catch (e: Exception) {
             emit(DataState.Error(e, null))
         }
     }.flowOn(ioDispatcher)
+
+
 
     override suspend fun logOut(): DataState<String> {
         return try {

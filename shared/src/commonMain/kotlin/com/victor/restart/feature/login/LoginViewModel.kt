@@ -117,6 +117,7 @@ class LoginViewModel(
                         UserData(
                             id = user.id,
                             username = user.username.orEmpty(),
+                            phone = user.phone.orEmpty(),
                             email = user.email,
                             role = user.role.orEmpty(),
                             accessToken = user.accessToken,

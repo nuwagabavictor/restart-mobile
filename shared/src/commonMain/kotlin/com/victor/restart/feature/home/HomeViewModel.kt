@@ -4,6 +4,7 @@ package com.victor.restart.feature.home
 
 import androidx.lifecycle.viewModelScope
 import com.victor.restart.core.entity.Transaction
+import com.victor.restart.core.repository.notification.NotificationRepository
 import com.victor.restart.core.repository.transaction.TransactionRepository
 import com.victor.restart.core.repository.userdata.UserPreferencesRepository
 import com.victor.restart.core.utils.BaseViewModel
@@ -13,7 +14,8 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val transactionRepository: TransactionRepository,
-    private val userPreferences: UserPreferencesRepository,   // ← new dep
+    private val userPreferences: UserPreferencesRepository, // ← new dep
+    private val notificationRepository: NotificationRepository
 
 ) : BaseViewModel<HomeState, HomeEvent, HomeAction>(
     initialState = HomeState(isLoading = true)
@@ -22,6 +24,7 @@ class HomeViewModel(
     init {
         observeUser()
         load()
+        getUnreadCount()
     }
 
     override fun handleAction(action: HomeAction) {
@@ -35,6 +38,13 @@ class HomeViewModel(
             userPreferences.userInfo.collect { user ->
                 update { it.copy(userName = user.username) }
             }
+        }
+    }
+
+    private fun getUnreadCount(){
+        viewModelScope.launch {
+            notificationRepository.getUnreadNotificationCount()
+                .collect {  }
         }
     }
 

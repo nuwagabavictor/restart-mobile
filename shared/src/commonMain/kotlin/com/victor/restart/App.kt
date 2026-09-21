@@ -15,6 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +27,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.victor.restart.core.enums.AuthState
 import com.victor.restart.core.repository.userdata.UserDataRepository
+import com.victor.restart.core.utils.LocalAppLocale
 import com.victor.restart.feature.budget.budgetDestination
 import com.victor.restart.feature.category.CategoryGraph
 import com.victor.restart.feature.category.CategoryRoute
@@ -38,11 +40,16 @@ import com.victor.restart.feature.home.homeDestination
 import com.victor.restart.feature.home.navigateToHome
 import com.victor.restart.feature.login.loginDestination
 import com.victor.restart.feature.login.navigateToLoginScreen
+import com.victor.restart.feature.notification.notificationDestination
 import com.victor.restart.feature.password.navigateToPassword
 import com.victor.restart.feature.password.passwordDestination
 import com.victor.restart.feature.register.RegisterRoute
 import com.victor.restart.feature.register.navigateToRegisterScreen
 import com.victor.restart.feature.register.registerDestination
+import com.victor.restart.feature.settings.SettingsGraph
+import com.victor.restart.feature.settings.SettingsRoute
+import com.victor.restart.feature.settings.navigateToSettings
+import com.victor.restart.feature.settings.settingsDestination
 import com.victor.restart.feature.transaction.TransactionGraph
 import com.victor.restart.feature.transaction.TransactionRoute
 import com.victor.restart.feature.transaction.navigateToTransactions
@@ -61,11 +68,17 @@ fun App() {
         Surface {
             val repository: UserDataRepository = koinInject()
             val authState by repository.authState.collectAsStateWithLifecycle(initialValue = AuthState.Loading)
+            val settings by repository.settingsState.collectAsStateWithLifecycle()
+            val locale = settings.language.locale
 
-            when (authState) {
-                AuthState.Loading -> LoadingScreen()
-                AuthState.Unauthenticated -> PublicNavGraph()
-                is AuthState.Authenticated -> PrivateNavGraph()
+            CompositionLocalProvider(
+                LocalAppLocale provides locale,
+            ) {
+                when (authState) {
+                    AuthState.Loading -> LoadingScreen()
+                    AuthState.Unauthenticated -> PublicNavGraph()
+                    is AuthState.Authenticated -> PrivateNavGraph()
+                }
             }
         }
     }
@@ -119,7 +132,8 @@ private fun PrivateNavGraph() {
     val showBottomBar = currentDestination?.hierarchy?.any { dest ->
         dest.hasRoute(HomeGraph::class) ||
                 dest.hasRoute(CategoryGraph::class) ||
-                dest.hasRoute(TransactionGraph::class)
+                dest.hasRoute(TransactionGraph::class)||
+                dest.hasRoute(SettingsGraph::class)
     } == true
 
     Scaffold(
@@ -134,6 +148,8 @@ private fun PrivateNavGraph() {
                                 currentDestination.hierarchy.any { it.hasRoute(CategoryRoute::class) }
                             BottomNavItem.Transactions ->
                                 currentDestination.hierarchy.any { it.hasRoute(TransactionRoute::class) }
+                            BottomNavItem.Settings ->
+                                currentDestination.hierarchy.any { it.hasRoute(SettingsRoute::class) }
                         }
 
                         NavigationBarItem(
@@ -144,6 +160,7 @@ private fun PrivateNavGraph() {
                                     BottomNavItem.Home -> navController.navigateToHome()
                                     BottomNavItem.Categories -> navController.navigateToCategories()
                                     BottomNavItem.Transactions -> navController.navigateToTransactions()
+                                    BottomNavItem.Settings -> navController.navigateToSettings()
                                 }
                             },
                             icon = {
@@ -168,6 +185,8 @@ private fun PrivateNavGraph() {
             categoryDestination(navController)
             transactionDestination(navController)
             budgetDestination(navController)
+            notificationDestination(navController)
+            settingsDestination(navController)
         }
     }
 }

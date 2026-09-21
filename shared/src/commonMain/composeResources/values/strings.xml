@@ -107,6 +107,7 @@
     <string name="nav_home">Home</string>
     <string name="nav_categories">Categories</string>
     <string name="nav_transactions">Transactions</string>
+    <string name="nav_settings">Settings</string>
 
     <!-- Home screen -->
     <string name="feature_home_title">Overview</string>

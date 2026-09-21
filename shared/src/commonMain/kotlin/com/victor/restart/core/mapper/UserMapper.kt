@@ -9,8 +9,9 @@ object UserMapper {
     fun toDomain(dto: LoginResponseDto): User{
         return User(
             id = dto.user.id,
-            email = dto.user.email,
             username = dto.user.username,
+            email = dto.user.email,
+            phone = dto.user.phone,
             role = dto.user.role,
             accessToken = dto.accessToken,
             isAuthenticated = dto.user.isAuthenticated
