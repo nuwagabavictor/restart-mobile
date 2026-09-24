@@ -16,6 +16,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.victor.restart.core.entity.Notification
+import org.jetbrains.compose.resources.stringResource
+import restart.shared.generated.resources.Res
+import restart.shared.generated.resources.feature_notifications_transaction_created
+import restart.shared.generated.resources.feature_notifications_user_login
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,8 +50,8 @@ fun NotificationItem(
 
             Icon(
                 imageVector = when (notification.action) {
-                    "USER_LOGIN" -> Icons.Outlined.Login
-                    "TRANSACTION_CREATED" -> Icons.Outlined.Payments
+                    stringResource(Res.string.feature_notifications_user_login) -> Icons.Outlined.Login
+                    stringResource(Res.string.feature_notifications_transaction_created) -> Icons.Outlined.Payments
                     else -> Icons.Outlined.Notifications
                 },
                 contentDescription = null,

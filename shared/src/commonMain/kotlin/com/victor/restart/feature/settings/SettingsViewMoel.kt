@@ -12,15 +12,21 @@ import com.victor.restart.core.repository.userdata.UserDataRepository
 import com.victor.restart.core.utils.DataState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.update
-
+import com.victor.restart.core.repository.userdata.UserPreferencesRepository
+import kotlinx.coroutines.flow.combine
 
 class SettingsViewModel(
     private val userDataRepository: UserDataRepository,
+    private val userPreferencesRepository: UserPreferencesRepository,
 ) : BaseViewModel<SettingsState, SettingsEvent, SettingsAction>(
-    initialState = SettingsState(uiState = ScreenUiState.Success),
+    initialState = SettingsState(uiState = ScreenUiState.Success,),
 ) {
 
     private var userDataJob: Job? = null
+    private var preferencesJob: Job? = null
+
+    private var logoutJob: Job? = null
+
 
     init {
         trySendAction(SettingsAction.Load)
@@ -32,7 +38,11 @@ class SettingsViewModel(
 
     override fun handleAction(action: SettingsAction) {
         when (action) {
-            SettingsAction.Load -> loadUserData()
+
+            SettingsAction.Load -> {
+                loadUserData()
+                loadPreferences()
+            }
 
             SettingsAction.ProfileClicked -> {
                 sendEvent(SettingsEvent.NavigateToProfile)
@@ -44,6 +54,10 @@ class SettingsViewModel(
 
             SettingsAction.ChangeLanguageClicked -> {
                 sendEvent(SettingsEvent.NavigateToLanguage)
+            }
+
+            SettingsAction.ChangeThemeClicked -> {
+                sendEvent(SettingsEvent.NavigateToTheme)
             }
 
             SettingsAction.SupportClicked -> {
@@ -66,6 +80,33 @@ class SettingsViewModel(
                     )
                 }
             }
+
+
+            SettingsAction.LogOutClicked -> {
+                updateState {
+                    it.copy(
+                        dialogState = SettingsState.DialogState.LogoutConfirmation
+                    )
+                }
+            }
+
+            SettingsAction.LogoutConfirmed -> {
+                handleLogout()
+            }
+        }
+    }
+
+    private fun handleLogout(){
+        logoutJob?.cancel()
+
+        logoutJob = viewModelScope.launch {
+            userPreferencesRepository.logOut()
+
+            updateState {
+                it.copy(dialogState = null)
+            }
+
+            sendEvent(SettingsEvent.Logout)
         }
     }
 
@@ -116,6 +157,27 @@ class SettingsViewModel(
         }
     }
 
+    private fun loadPreferences() {
+        preferencesJob?.cancel()
+
+        preferencesJob = viewModelScope.launch {
+            combine(
+                userPreferencesRepository.appTheme,
+                userPreferencesRepository.observeLanguage,
+            ) { theme, language ->
+                theme to language
+            }.collect { (theme, language) ->
+
+                updateState {
+                    it.copy(
+                        theme = theme,
+                        language = language,
+                    )
+                }
+            }
+        }
+    }
+
     private fun getInitials(username: String): String {
         val nameParts = username
             .trim()
@@ -154,13 +216,15 @@ data class SettingsState(
 
     val showOverlay: Boolean = false,
 
-    val dialogState: DialogState? = null
-
-){
+    val dialogState: DialogState? = null,
+) {
     sealed interface DialogState {
+        data class Error(val message: String, ) : DialogState
+        data object LogoutConfirmation : DialogState
 
-        data class Error(val message: String) : DialogState
     }
+
+
 }
 
 sealed interface SettingsAction {
@@ -173,7 +237,13 @@ sealed interface SettingsAction {
 
     data object ChangeLanguageClicked : SettingsAction
 
+    data object ChangeThemeClicked : SettingsAction
+
     data object SupportClicked : SettingsAction
+
+    data object LogOutClicked: SettingsAction
+
+    data object LogoutConfirmed : SettingsAction
 
     data object ChangePasswordClicked : SettingsAction
 
@@ -181,7 +251,6 @@ sealed interface SettingsAction {
 
     data object ErrorDismiss : SettingsAction
 }
-
 
 sealed interface SettingsEvent {
 
@@ -191,14 +260,15 @@ sealed interface SettingsEvent {
 
     data object NavigateToLanguage : SettingsEvent
 
+    data object NavigateToTheme : SettingsEvent
+
     data object NavigateToSupport : SettingsEvent
 
     data object NavigateToChangePassword : SettingsEvent
 
     data object NavigateToAbout : SettingsEvent
 
-    data class ShowError(val message: String) : SettingsEvent
+    data object Logout : SettingsEvent
 
-    data class ShowToast(val message: String) : SettingsEvent
-
+    data class ShowToast(val message: String, ) : SettingsEvent
 }

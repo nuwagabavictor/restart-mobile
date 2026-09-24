@@ -11,6 +11,7 @@ object KoinModules {
         includes(DispatchersModule)
         includes(stringProviderModule)
         includes(CommonModule)
+        includes(platformManagementModule)
     }
 
     private val dataModules = module {

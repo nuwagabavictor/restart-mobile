@@ -18,10 +18,7 @@ interface UserService {
     @POST(ApiEndPoints.REGISTER_USER)
     suspend fun createUser(@Body registerRequestDto: RegisterRequestDto): HttpResponse;
 
-    @POST(ApiEndPoints.CHANGE_PASSWORD + "/{userId}")
-    suspend fun changePassword(
-        @Path("userId") userId: Int,
-        @Body passwordRequest: PasswordRequest
-    ): HttpResponse;
+    @POST(ApiEndPoints.CHANGE_PASSWORD )
+    suspend fun changePassword(@Body passwordRequest: PasswordRequest): HttpResponse;
 
 }

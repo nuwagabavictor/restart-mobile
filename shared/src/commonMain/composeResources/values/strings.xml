@@ -38,6 +38,7 @@
     <string name="feature_register_password_strong">Strong password</string>
     <string name="feature_confirm">Confirm</string>
 
+
     <string name="feature_category_title">Categories</string>
     <string name="feature_category_count">%1$d categories</string>
     <string name="feature_category_search">Search categories</string>
@@ -170,6 +171,92 @@
     <string name="feature_budget_exceeded">Exceeded</string>
     <string name="feature_budget_remaining">Remaining</string>
     <string name="feature_budget_spent">Spent</string>
+
+    <string name="feature_cancel">Cancel</string>
+    <string name="feature_save">Save</string>
+    <string name="feature_light_starts">Light theme starts</string>
+    <string name="feature_dark_starts">Dark theme starts</string>
+    <string name="feature_theme_schedule">Theme Schedule</string>
+    <string name="feature_theme_config_device">Use your device's theme</string>
+    <string name="feature_theme_config_light">Always use light theme</string>
+    <string name="feature_theme_config_dark">Always use dark theme</string>
+    <string name="feature_theme_toggle_dark_light">Choose when light and dark themes should be active.</string>
+    <!-- Theme -->
+    <string name="feature_theme_config_device_1">Follow System</string>
+    <string name="feature_theme_config_light_2">Light</string>
+    <string name="feature_theme_config_dark_3">Dark</string>
+    <string name="feature_theme_config_based_on_time">Based on Time</string>
+    <string name="feature_theme_select_preferred">Select your preferred theme</string>
+    <string name="feature_theme_saving">Saving...</string>
+    <string name="feature_theme_save">Save Theme</string>
+    <string name="feature_language_save">Save Language</string>
+    <string name="feature_theme_title">Change Theme</string>
+
+    <!-- Settings -->
+    <string name="feature_settings_title">Settings</string>
+
+    <!-- Preferences -->
+    <string name="feature_settings_preferences">Preferences</string>
+
+    <string name="feature_settings_notifications">Notifications</string>
+    <string name="feature_settings_notifications_subtitle">Manage your notifications</string>
+
+    <string name="feature_settings_change_language">Change Language</string>
+    <string name="feature_settings_change_theme">Change Theme</string>
+
+    <!-- Support -->
+    <string name="feature_settings_support">Support</string>
+    <string name="feature_settings_get_in_touch">Get in touch</string>
+    <string name="feature_settings_contact_support">Contact support</string>
+
+    <!-- Security -->
+    <string name="feature_settings_security">Security</string>
+    <string name="feature_settings_change_password">Change Password</string>
+    <string name="feature_settings_update_password">Update your account password</string>
+
+    <!-- About -->
+    <string name="feature_settings_about">About</string>
+    <string name="feature_settings_about_us">About Us</string>
+    <string name="feature_settings_learn_more">Learn more about the application</string>
+
+    <!-- Notifications -->
+    <string name="feature_notifications_title">Notifications</string>
+    <string name="feature_notifications_back">←</string>
+    <string name="feature_notifications_read_all">Read all</string>
+
+    <string name="feature_notifications_read">Read</string>
+.com
+
+    <string name="feature_notifications_unread">Unread</string>
+    <string name="feature_notifications_all">All</string>
+
+    <string name="feature_notifications_empty">No notifications</string>
+
+    <!-- Notification event types -->
+    <string name="feature_notifications_transaction_created">Transaction Created</string>
+    <string name="feature_notifications_user_login">User Login</string>
+
+    <!-- Notification details -->
+    <string name="feature_notifications_entity">Entity</string>
+    <string name="feature_notifications_action">Action</string>
+    <string name="feature_notifications_entity_id">Entity ID</string>
+    <string name="feature_notifications_date">Date</string>
+    <string name="feature_notifications_status">Status</string>
+
+    <!-- Language -->
+    <string name="feature_language_select_description">Choose your preferred language. You can change this later in Settings.</string>
+    <string name="feature_password_change_description">Enter a new password for your account.</string>
+
+
+    <!-- Account -->
+    <string name="feature_settings_account">Account</string>
+
+    <string name="feature_settings_logout">Logout</string>
+
+    <string name="feature_settings_logout_subtitle">Sign out of your account on this device.</string>
+
+    <string name="feature_settings_logout_confirmation">Are you sure you want to log out?</string>
+
 
 
 

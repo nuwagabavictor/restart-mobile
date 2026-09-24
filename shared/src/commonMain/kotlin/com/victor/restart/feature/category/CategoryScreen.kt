@@ -109,7 +109,7 @@ fun CategoryScreen(
                     Column {
                         Text(
                             text = stringResource(
-                                Res.string.feature_category_title
+                                Res.string.feature_category_title, state.categories.size
                             )
                         )
 
@@ -135,6 +135,7 @@ fun CategoryScreen(
 
         Column(
             modifier = Modifier
+                .fillMaxSize()
                 .padding(paddingValues)
                 .padding(horizontal = 16.dp)
         ) {

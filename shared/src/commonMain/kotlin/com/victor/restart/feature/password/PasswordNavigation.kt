@@ -3,23 +3,51 @@ package com.victor.restart.feature.password
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
+import com.victor.restart.feature.settings.SettingsGraph
+import com.victor.restart.feature.settings.SettingsRoute
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+
+@Serializable
+@SerialName("password_graph")
+data object PasswordGraph
+@Serializable
+@SerialName("forgot-password")
+data object ForgotPasswordRoute
+
 @Serializable
 @SerialName("change-password")
-data object PasswordRoute
+data object ChangePasswordRoute
 
-fun NavController.navigateToPassword(){
-    navigate(PasswordRoute)
+fun NavController.navigateToChangePassword(){
+    navigate(ChangePasswordRoute)
+}
+
+fun NavController.navigateToForgotPassword(){
+    navigate(ForgotPasswordRoute)
 }
 
 fun NavGraphBuilder.passwordDestination(
-    navigateToCancel: () -> Unit
+    navController: NavController
 ){
-    composable<PasswordRoute>{
-        PasswordScreen(
-            navigateToCancel = navigateToCancel
-        )
+    navigation<PasswordGraph>(
+        startDestination = ForgotPasswordRoute
+    ) {
+        composable<ForgotPasswordRoute> {
+            PasswordScreen(
+                navigateToCancel = {
+                    navController.popBackStack()
+                }
+            )
+        }
+        composable<ChangePasswordRoute> {
+            PasswordScreen(
+                navigateToCancel = {
+                    navController.popBackStack()
+                }
+            )
+        }
     }
 }

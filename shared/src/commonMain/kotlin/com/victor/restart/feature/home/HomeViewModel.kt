@@ -14,9 +14,7 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val transactionRepository: TransactionRepository,
-    private val userPreferences: UserPreferencesRepository, // ← new dep
-    private val notificationRepository: NotificationRepository
-
+    private val userPreferences: UserPreferencesRepository,
 ) : BaseViewModel<HomeState, HomeEvent, HomeAction>(
     initialState = HomeState(isLoading = true)
 ) {
@@ -24,7 +22,6 @@ class HomeViewModel(
     init {
         observeUser()
         load()
-        getUnreadCount()
     }
 
     override fun handleAction(action: HomeAction) {
@@ -41,12 +38,6 @@ class HomeViewModel(
         }
     }
 
-    private fun getUnreadCount(){
-        viewModelScope.launch {
-            notificationRepository.getUnreadNotificationCount()
-                .collect {  }
-        }
-    }
 
     private fun load() {
         viewModelScope.launch {

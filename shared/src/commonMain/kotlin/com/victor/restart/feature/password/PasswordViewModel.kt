@@ -19,36 +19,50 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.getString
 
+
 class PasswordViewModel(
     private val userRepository: UserRepository,
     savedStateHandle: SavedStateHandle,
-    private val userPreferencesRepositoryImpl: UserPreferencesRepository
-    ): BaseViewModel<PasswordState, PasswordEvent, PasswordAction>(
-    initialState = PasswordState(uiState = ScreenUiState.Success)
+    private val userPreferencesRepository: UserPreferencesRepository,
+) : BaseViewModel<PasswordState, PasswordEvent, PasswordAction>(
+    initialState = PasswordState(
+        uiState = ScreenUiState.Success
+    )
 ) {
+
     private var passwordJob: Job? = null
 
     init {
-        savedStateHandle.get<String>("password")?.let{
-            trySendAction(PasswordAction.PasswordChanged(it))
+        savedStateHandle.get<String>("password")?.let {
+            trySendAction(
+                PasswordAction.PasswordChanged(it)
+            )
         }
     }
 
-    private fun updateState(state: (PasswordState) -> PasswordState){
+    private fun updateState(
+        state: (PasswordState) -> PasswordState
+    ) {
         mutableStateFlow.update(state)
     }
 
     override fun handleAction(action: PasswordAction) {
-        when(action){
+        when (action) {
+
             is PasswordAction.PasswordChanged -> {
                 updateState {
                     it.copy(
                         isError = false,
                         password = action.password,
-                        passwordError = null
+                        passwordError = null,
+                        isPasswordStrength =
+                            PasswordStrength.calculatePasswordStrength(
+                                action.password
+                            )
                     )
                 }
             }
+
             is PasswordAction.ConfirmPasswordChanged -> {
                 updateState {
                     it.copy(
@@ -58,30 +72,56 @@ class PasswordViewModel(
                     )
                 }
             }
+
             is PasswordAction.TogglePasswordVisibility -> {
                 updateState {
-                    it.copy(isPasswordVisible = !it.isPasswordVisible)
+                    it.copy(
+                        isPasswordVisible = !it.isPasswordVisible
+                    )
                 }
             }
-            is PasswordAction.ButtonClicked -> changePassword(state.password, state.confirmPassword)
+
+            is PasswordAction.ButtonClicked -> {
+                changePassword()
+            }
+
             is PasswordAction.ErrorDialogDismiss -> {
                 updateState {
-                    it.copy(dialogState = null)
+                    it.copy(
+                        dialogState = null
+                    )
                 }
             }
-            is PasswordAction.Internal.ReceivePasswordAction -> handlePasswordResult(action)
-            is PasswordAction.CancelClicked -> sendEvent(PasswordEvent.NavigateToCancel)
+
+            is PasswordAction.Internal.ReceivePasswordAction -> {
+                handlePasswordResult(action)
+            }
+
+            is PasswordAction.CancelClicked -> {
+                sendEvent(
+                    PasswordEvent.NavigateToCancel
+                )
+            }
         }
     }
 
-    private fun handlePasswordResult(action: PasswordAction.Internal.ReceivePasswordAction){
+    private fun handlePasswordResult(
+        action: PasswordAction.Internal.ReceivePasswordAction
+    ) {
         viewModelScope.launch {
-            when(action.passwordResult){
+            when (action.passwordResult) {
+
                 is DataState.Error -> {
+
                     val errMsg =
-                        if (action.passwordResult.exception.cause is ServerResponseException){
-                            getString(Res.string.internal_server_error)
-                        }else{
+                        if (
+                            action.passwordResult.exception.cause
+                                    is ServerResponseException
+                        ) {
+                            getString(
+                                Res.string.internal_server_error
+                            )
+                        } else {
                             action.passwordResult.message
                         }
 
@@ -90,49 +130,61 @@ class PasswordViewModel(
                             isError = true,
                             uiState = ScreenUiState.Success,
                             showOverlay = false,
-                            dialogState = PasswordState.DialogState.Error(errMsg),
-                            passwordError = Res.string.feature_sign_in_password_error,
-                            confirmPasswordError = Res.string.feature_sign_in_password_error
+                            dialogState = PasswordState.DialogState.Error(
+                                errMsg
+                            ),
+                            passwordError =
+                                Res.string.feature_sign_in_password_error,
+                            confirmPasswordError =
+                                Res.string.feature_sign_in_password_error
                         )
                     }
                 }
+
                 is DataState.Loading -> {
                     updateState {
-                        it.copy(showOverlay = true)
+                        it.copy(
+                            showOverlay = true
+                        )
                     }
                 }
-                is DataState.Success -> {
-                    updateState {
-                        it.copy(showOverlay = false)
-                    }
 
-                    val data = action.passwordResult.data
+                is DataState.Success -> {
 
                     updateState {
                         it.copy(
+                            showOverlay = false,
                             isError = false
                         )
                     }
 
-                    //sendEvent(PasswordEvent.)
+                    // Password changed successfully.
+                    // Immediately terminate the current session.
+                    userPreferencesRepository.logOut()
                 }
             }
         }
-
     }
 
-    private fun changePassword(password: String, confirmPassword: String){
+    private fun changePassword() {
         passwordJob?.cancel()
 
-        updateState { it.copy(showOverlay = true ) }
+        updateState {
+            it.copy(
+                showOverlay = true
+            )
+        }
 
         passwordJob = viewModelScope.launch {
             delay(300)
-            val userId = userPreferencesRepositoryImpl.userInfo.value.id
-            val result = userRepository.changePassword(userId, password, confirmPassword)
+
+            val result = userRepository.changePassword(
+                state.password,
+                state.confirmPassword
+            )
+
             sendAction(PasswordAction.Internal.ReceivePasswordAction(result))
         }
-
     }
 }
 
@@ -152,20 +204,20 @@ data class PasswordState(
         data class Error(val message: String): DialogState
     }
 
-    private val isPasswordEmpty: Boolean
-        get() = password.isNotEmpty()
+    private val isPasswordNotEmpty: Boolean
+        get() = password.isNotBlank()
 
-    private val isConfirmPasswordEmpty: Boolean
-        get() = confirmPassword.isNotEmpty()
+    private val isConfirmPasswordNotEmpty: Boolean
+        get() = confirmPassword.isNotBlank()
 
     private val isPasswordValid: Boolean
-        get() = password.length > 8 && isPasswordStrength != PasswordStrength.WEAK
+        get() = password.length >= 8 && isPasswordStrength != PasswordStrength.WEAK
 
     private val isPasswordMatching: Boolean
         get() = password == confirmPassword
 
     val isConfirmButtonEnabled: Boolean
-        get() = isPasswordEmpty && isConfirmPasswordEmpty && isPasswordValid && isPasswordMatching
+        get() = isPasswordNotEmpty && isConfirmPasswordNotEmpty && isPasswordValid && isPasswordMatching
 }
 
 sealed interface PasswordEvent{
@@ -182,8 +234,6 @@ sealed interface PasswordAction{
     data object ErrorDialogDismiss: PasswordAction
 
     sealed class Internal: PasswordAction{
-        data class ReceivePasswordAction(
-            val passwordResult: DataState<String>
-        ) : Internal()
+        data class ReceivePasswordAction(val passwordResult: DataState<String>) : Internal()
     }
 }

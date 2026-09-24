@@ -7,5 +7,5 @@ import com.victor.restart.core.utils.DataState
 interface UserRepository {
     suspend fun createUser(payload: RegisterPayload): DataState<String>;
     suspend fun login(email: String, password: String): DataState<User>;
-    suspend fun changePassword(userId: Int, password: String, confirmPassword: String): DataState<String>;
+    suspend fun changePassword(password: String, confirmPassword: String): DataState<String>;
 }

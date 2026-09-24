@@ -18,6 +18,11 @@ enum class LanguageConfig(
     FRENCH(
         locale = "fr",
         languageName = "French",
+    ),
+    
+    SWAHILI(
+        locale = "sw",
+        languageName = "Swahili",
     );
 
     companion object {
